@@ -1,8 +1,8 @@
 
-import {parseFile} from "./parseFile";
-import {exportFile} from "./exportFile";
+import {parseFile} from './parseFile';
+import {exportFile} from './exportFile';
 
 export {
-    parseFile,
-    exportFile
+  parseFile,
+  exportFile
 }
