@@ -29,8 +29,8 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
         sheetName,
         dataSource,
         columns,
-      })
-    })
+      });
+    });
     resolve({
       wb,
       tables,
@@ -38,7 +38,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
   };
   reader.onerror = (e) => {
     reject(e);
-  }
+  };
   if(rABS) reader.readAsBinaryString(file); else reader.readAsArrayBuffer(file);
 });
 
@@ -64,7 +64,7 @@ const getColumns = ({refStr, mergesArr}:{refStr:string, mergesArr:any}) => {
           props: mergesObj[`${colIndex}:${rowIndex}`],
         };
       },
-    }
+    };
   }
   return columns;
 };
@@ -83,13 +83,13 @@ const getMergesObj = (mergesArr: any = []) => {
         mergesObj[`${sc}:${sr}`] = {
           colSpan: 0,
           rowSpan: 0,
-        }
+        };
       }
     }
     mergesObj[`${msc}:${msr}`] = {
       colSpan: mec - msc + 1,
       rowSpan: mer - msr + 1,
-    }
-  })
+    };
+  });
   return mergesObj;
-}
+};

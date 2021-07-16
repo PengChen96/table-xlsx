@@ -5,4 +5,4 @@ import {exportFile} from './exportFile';
 export {
   parseFile,
   exportFile
-}
+};

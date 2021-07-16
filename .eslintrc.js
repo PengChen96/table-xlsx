@@ -23,6 +23,7 @@ module.exports = {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
+    'semi': 2,
     'space-infix-ops': 2
   }
 };
