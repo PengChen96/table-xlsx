@@ -77,16 +77,16 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
           $merges.push(merge);
         }
       }
+      const style = rowIndex < headerRowsPlaceholder ? headerStyle : {
+        font: {
+          name: '宋体',
+          color: { rgb: '333' },
+        }
+      };
       sheet[`${xAxis}${rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
         v: value,
-        s: {
-          font: { name: '宋体' },
-          alignment: {
-            horizontal: 'center',
-            vertical: 'center',
-          },
-        }
+        s: style
       };
     });
   });
@@ -157,4 +157,40 @@ const saveAs = (blob: any, fileName: any) => {
       return url;
     }
   }
+};
+
+/**
+ * 表头样式
+ */
+const headerStyle = {
+  font: {
+    name: '宋体',
+    color: { rgb: '333' },
+    bold: true,
+  },
+  border: {
+    top: {
+      style: 'thin',
+      color: { rgb: 'd1d3d8' }
+    },
+    left: {
+      style: 'thin',
+      color: { rgb: 'd1d3d8' }
+    },
+    bottom: {
+      style: 'thin',
+      color: { rgb: 'd1d3d8' }
+    },
+    right: {
+      style: 'thin',
+      color: { rgb: 'd1d3d8' }
+    }
+  },
+  fill: {
+    fgColor: { rgb: 'e9ebf0' }
+  },
+  alignment: {
+    horizontal: 'center',
+    vertical: 'center',
+  },
 };
