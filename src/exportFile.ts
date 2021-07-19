@@ -72,16 +72,18 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
           $merges.push(merge);
         }
       }
-      const style = rowIndex < headerRowsPlaceholder ? headerStyle : {
-        font: {
-          name: '宋体',
-          color: { rgb: '333' },
-        }
-      };
+      const style = rowIndex < headerRowsPlaceholder ? headerStyle : {};
       sheet[`${xAxis}${rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
         v: value,
-        s: style
+        s: {
+          font: {
+            name: '宋体',
+            color: { rgb: '333' },
+          },
+          border: defaultBorder,
+          ...style
+        }
       };
     });
   });
@@ -135,6 +137,27 @@ const getMerge = ({
 };
 
 /**
+ *
+ */
+const defaultBorder = {
+  top: {
+    style: 'thin',
+    color: { rgb: 'd1d3d8' }
+  },
+  left: {
+    style: 'thin',
+    color: { rgb: 'd1d3d8' }
+  },
+  bottom: {
+    style: 'thin',
+    color: { rgb: 'd1d3d8' }
+  },
+  right: {
+    style: 'thin',
+    color: { rgb: 'd1d3d8' }
+  }
+};
+/**
  * 表头样式
  */
 const headerStyle = {
@@ -143,24 +166,7 @@ const headerStyle = {
     color: { rgb: '333' },
     bold: true,
   },
-  border: {
-    top: {
-      style: 'thin',
-      color: { rgb: 'd1d3d8' }
-    },
-    left: {
-      style: 'thin',
-      color: { rgb: 'd1d3d8' }
-    },
-    bottom: {
-      style: 'thin',
-      color: { rgb: 'd1d3d8' }
-    },
-    right: {
-      style: 'thin',
-      color: { rgb: 'd1d3d8' }
-    }
-  },
+  border: defaultBorder,
   fill: {
     fgColor: { rgb: 'e9ebf0' }
   },
