@@ -1,7 +1,5 @@
 
-import {blobify} from './utils/xlsxUtils';
-
-const XLSX = require('xlsx');
+const XLSX = require('@pengchen/xlsx');
 
 /**
  *
@@ -36,10 +34,7 @@ export const exportFile = ({
     SheetNames: sheetNames,
     Sheets: Sheets,
   };
-  const wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
-  const wbout = XLSX.write(wb, wopts);
-  const url = saveAs(new Blob([blobify(wbout)], {type:'application/octet-stream'}), fileName);
-  return url;
+  XLSX.writeFile(wb, fileName);
 };
 /**
  * 转换成sheet对象
@@ -137,26 +132,6 @@ const getMerge = ({
     }
   }
   return false;
-};
-/**
- * 保存
- */
-const saveAs = (blob: any, fileName: any) => {
-  if (typeof URL !== 'undefined' && typeof document !== 'undefined' && document.createElement && URL.createObjectURL) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    if (a.download != null) {
-      a.download = fileName;
-      a.href = url;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      if (URL.revokeObjectURL && typeof setTimeout !== 'undefined') {
-        setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
-      }
-      return url;
-    }
-  }
 };
 
 /**
