@@ -11,13 +11,13 @@ const XLSX = require('@pengchen/xlsx');
  * @param raw 是否格式化值的类型
  */
 export const exportFile = ({
-  fileName = 'table.xlsx',
-  sheetNames = [],
-  columns = [],
-  dataSource = [],
-  hideHeader = false,
-  raw = false
-}:{
+                             fileName = 'table.xlsx',
+                             sheetNames = ['sheet1'],
+                             columns = [],
+                             dataSource = [],
+                             hideHeader = false,
+                             raw = false
+                           }:{
   fileName: string,
   sheetNames: any,
   columns: any,
@@ -100,7 +100,7 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
  * 获取列宽
  */
 const formatToWpx = (width: number|string) => {
-  let wpx = width;
+  let wpx = width || 100;
   if (typeof width !== 'number') {
     wpx = Number(width.replace(/[^0-9]/ig, ''));
   }
