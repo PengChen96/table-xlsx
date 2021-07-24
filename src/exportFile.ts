@@ -1,3 +1,4 @@
+import {sameType} from '../lib/utils/base';
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -11,13 +12,13 @@ const XLSX = require('@pengchen/xlsx');
  * @param raw 是否格式化值的类型
  */
 export const exportFile = ({
-                             fileName = 'table.xlsx',
-                             sheetNames = ['sheet1'],
-                             columns = [],
-                             dataSource = [],
-                             hideHeader = false,
-                             raw = false
-                           }:{
+  fileName = 'table.xlsx',
+  sheetNames = ['sheet1'],
+  columns = [],
+  dataSource = [],
+  hideHeader = false,
+  raw = false
+}: {
   fileName: string,
   sheetNames: any,
   columns: any,
@@ -27,7 +28,14 @@ export const exportFile = ({
 }) => {
   const Sheets: any = {};
   sheetNames.forEach((sheetName: string, sheetIndex: number) => {
-    const { sheet } = formatToSheet({columns, dataSource, hideHeader, raw});
+    const _columns = sameType(columns[sheetIndex], 'Array') ? columns[sheetIndex] : columns;
+    const _dataSource = sameType(dataSource[sheetIndex], 'Array') ? dataSource[sheetIndex] : dataSource;
+    const {sheet} = formatToSheet({
+      columns: _columns,
+      dataSource: _dataSource,
+      hideHeader,
+      raw,
+    });
     Sheets[sheetName] = sheet;
   });
   const wb = {
