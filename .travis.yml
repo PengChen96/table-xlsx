@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "12"
+before_script:
+  - npm install -g jest
+after_success:
+  - sleep 5
+  - bash <(curl -s https://codecov.io/bash)
+
