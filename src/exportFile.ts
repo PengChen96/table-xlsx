@@ -1,4 +1,4 @@
-import {sameType} from '../lib/utils/base';
+import {sameType} from './utils/base';
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -43,6 +43,7 @@ export const exportFile = ({
     Sheets: Sheets,
   };
   XLSX.writeFile(wb, fileName);
+  return wb;
 };
 /**
  * 转换成sheet对象
