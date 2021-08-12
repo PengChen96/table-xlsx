@@ -3,7 +3,7 @@ import {sameType} from './utils/base';
 const XLSX = require('@pengchen/xlsx');
 
 /**
- *
+ * 导出
  * @param fileName
  * @param sheetNames
  * @param columns
