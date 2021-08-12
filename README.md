@@ -1,6 +1,7 @@
 # table-xlsx
+[![Build Status](https://www.travis-ci.com/PengChen96/table-xlsx.svg?branch=master)](https://travis-ci.com/github/PengChen96/table-xlsx)
+[![codecov](https://codecov.io/gh/PengChen96/table-xlsx/branch/master/graph/badge.svg?token=D75YLE0DLW)](https://codecov.io/gh/PengChen96/table-xlsx)
 基于SheetJS封装，实现导出文件和解析文件生成表数据功能
-
 
 ## 安装
 ```shell
