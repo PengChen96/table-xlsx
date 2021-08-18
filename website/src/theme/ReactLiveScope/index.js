@@ -7,7 +7,8 @@
 
 import React from 'react';
 import {exportFile, parseFile} from '../../../../dist';
-import {Table} from 'antd';
+import {Table, Upload} from 'antd';
+import {InboxOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 // Add react-live imports you need here
@@ -15,6 +16,8 @@ const ReactLiveScope = {
   React,
   ...React,
   Table,
+  Upload,
+  InboxOutlined,
   exportFile,
   parseFile,
 };
