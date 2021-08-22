@@ -1,5 +1,4 @@
-
-import {Tables, Columns} from './interface';
+import {Columns, Tables} from './interface';
 
 const XLSX = require('xlsx');
 
@@ -13,7 +12,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
     /* Parse data */
     const bstr = e.target && e.target.result;
     const wb = XLSX.read(bstr, {
-      type:rABS ? 'binary' : 'array',
+      type: rABS ? 'binary' : 'array',
       cellStyles: true
     });
     /* Get Tables */
@@ -45,7 +44,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
 /**
  * 生成列
  */
-const getColumns = ({refStr, mergesArr}:{refStr:string, mergesArr:any}) => {
+export const getColumns = ({refStr, mergesArr}: { refStr: string, mergesArr: any }) => {
   const columns: Columns[] = [];
   if (!refStr) {
     return columns;
@@ -71,15 +70,15 @@ const getColumns = ({refStr, mergesArr}:{refStr:string, mergesArr:any}) => {
 /**
  * 获取合并项
  */
-const getMergesObj = (mergesArr: any = []) => {
-  const mergesObj:{[key: string]: any} = {};
+export const getMergesObj = (mergesArr: any = []) => {
+  const mergesObj: { [key: string]: any } = {};
   mergesArr.forEach((m: { s: { c: number; r: number; }; e: { c: number; r: number; }; }) => {
     const msc = m.s.c;
     const msr = m.s.r;
     const mec = m.e.c;
     const mer = m.e.r;
     for (let sc = msc; sc <= mec; sc++) {
-      for(let sr = msr; sr <= mer; sr++) {
+      for (let sr = msr; sr <= mer; sr++) {
         mergesObj[`${sc}:${sr}`] = {
           colSpan: 0,
           rowSpan: 0,

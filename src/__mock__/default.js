@@ -17,7 +17,7 @@ export const columns = [{
   key: 'c2',
   dataIndex: 'c2',
   title: 'title2',
-  width: 100,
+  width: '100px',
   render: (text, row, index) => {
     return {
       children: <a>{text}</a>,
