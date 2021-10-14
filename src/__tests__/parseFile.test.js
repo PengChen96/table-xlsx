@@ -11,12 +11,12 @@ describe('parse file', () => {
   test('function getMergesObj', () => {
     const mergesArr = [
       {
+        s: {c: 0, r: 2},
         e: {c: 1, r: 2},
-        s: {c: 0, r: 2}
       },
       {
+        s: {c: 2, r: 2},
         e: {c: 2, r: 3},
-        s: {c: 2, r: 2}
       }
     ];
     const result = {

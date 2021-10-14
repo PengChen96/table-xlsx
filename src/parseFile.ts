@@ -80,7 +80,7 @@ export const getMergesObj = (mergesArr: any = []) => {
     for (let sc = msc; sc <= mec; sc++) {
       for (let sr = msr; sr <= mer; sr++) {
         mergesObj[`${sc}:${sr}`] = {
-          colSpan: 0,
+          colSpan: msr === sr ? 0 : undefined, // 第一行才设置colSpan=0,兼容VTable与antd差异
           rowSpan: 0,
         };
       }
