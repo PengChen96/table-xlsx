@@ -23,7 +23,7 @@ describe('parse file', () => {
       '0:2': {colSpan: 2, rowSpan: 1},
       '1:2': {colSpan: 0, rowSpan: 0},
       '2:2': {colSpan: 1, rowSpan: 2},
-      '2:3': {colSpan: 0, rowSpan: 0},
+      '2:3': {colSpan: undefined, rowSpan: 0},
     }
     expect(getMergesObj(mergesArr)).toEqual(result);
 

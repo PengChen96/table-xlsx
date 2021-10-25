@@ -66,8 +66,6 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
   Object.assign(sheet, headerData.sheet);
   $merges.push(...headerData.merges);
   //
-  // flatColumns = columnsInfo.columns;
-  // const headerRowsPlaceholder = level; // 表头行占的行数
   flatColumns.forEach((col: any, colIndex: number) => {
     const key = col.dataIndex || col.key;
     const title = col.title; // todo
@@ -75,12 +73,6 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
     headerKeys.push(key);
     $cols.push({wpx: formatToWpx(col.width)});
     const xAxis = XLSX.utils.encode_col(colIndex);
-    // const headerData = hideHeader ? [] : [{
-    //   [key]: title,
-    // }];
-    // todo 多级表头
-    // headerRowsPlaceholder = headerData.length;
-    // [...headerData, ...dataSource].forEach((data: any, rowIndex: number) => {
     dataSource.forEach((data: any, rowIndex: number) => {
       const value = data[key];
       if (col.render) {
@@ -90,7 +82,6 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
           $merges.push(merge);
         }
       }
-      // const style = rowIndex < headerRowsPlaceholder ? headerStyle : {};
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
         v: value,
@@ -100,7 +91,6 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
             color: { rgb: '333' },
           },
           border: defaultBorder,
-          // ...style
         }
       };
     });
@@ -116,7 +106,7 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
 };
 
 /**
- *
+ * 获取表头数据
  */
 const getHeaderData = ({
   columns,
@@ -136,9 +126,6 @@ const getHeaderData = ({
         t: 's',
         v: cols.title,
         s: {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          border: defaultBorder,
           ...headerStyle
         }
       };
