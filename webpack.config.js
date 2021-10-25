@@ -1,6 +1,6 @@
 
 const path = require('path');
-// const nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -30,9 +30,9 @@ module.exports = {
       use: ['ts-loader']
     }],
   },
-  // externals: [nodeExternals()],
-  // externals: {
-  //   xlsx: 'xlsx',
+  externals: [nodeExternals()],
+  // optimization: {
+  // minimizer: [new UglifyJsPlugin()],
   // },
   optimization: {
     minimizer: [new UglifyJsPlugin()],
