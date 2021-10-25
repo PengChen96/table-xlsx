@@ -72,3 +72,70 @@ export const dataSource = [{
   c3: 33,
   c4: 44,
 }];
+
+
+export const multiHeadColumns = [
+  {
+    key: 'c1',
+    dataIndex: 'c1',
+    title: 'title1',
+    width: 100,
+  },
+  {
+    title: 'title1',
+    children: [
+      {
+        title: 'title1-1',
+        children: [{
+          title: 'title1-1-1',
+          dataIndex: 'c1',
+          key: 'c1',
+          width: 100,
+        }, {
+          title: 'title1-1-2',
+          dataIndex: 'c2',
+          key: 'c2',
+          width: 100,
+        }],
+      },
+      {
+        title: 'title1-2',
+        dataIndex: 'c3',
+        key: 'c3',
+        width: 100,
+      },
+    ],
+  },
+  {
+    key: 'c2',
+    dataIndex: 'c2',
+    title: 'title2',
+    width: 100,
+  },
+  {
+    key: 'c3',
+    dataIndex: 'c3',
+    title: 'title3',
+    width: 100,
+    children: [
+      {
+        key: 'c3',
+        dataIndex: 'c3',
+        title: 'title3',
+        width: 100,
+      },
+      {
+        key: 'c3',
+        dataIndex: 'c3',
+        title: 'title3',
+        width: 100,
+      },
+    ]
+  },
+  {
+    key: 'c4',
+    dataIndex: 'c4',
+    title: 'title4',
+    width: 100,
+  }
+];

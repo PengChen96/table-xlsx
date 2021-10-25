@@ -13,6 +13,11 @@ function MyComponent() {
   }, [])
   const init = () => {
       const columns = [{
+          key: 'c1',
+          dataIndex: 'c1',
+          title: 'title1',
+          width: 100,
+        }, {
         title: 'title1',
         children: [
           {
