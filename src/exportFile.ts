@@ -1,3 +1,5 @@
+import {ColumnType} from './interface';
+
 import {sameType} from './utils/base';
 
 const XLSX = require('@pengchen/xlsx');
@@ -11,29 +13,34 @@ const XLSX = require('@pengchen/xlsx');
  * @param hideHeader 是否显示表头
  * @param raw 是否格式化值的类型
  */
-export const exportFile = ({
-  fileName = 'table.xlsx',
-  sheetNames = ['sheet1'],
-  columns = [],
-  dataSource = [],
-  hideHeader = false,
-  raw = false
-}: {
-  fileName: string,
-  sheetNames: any,
-  columns: any,
-  dataSource: any,
-  hideHeader: boolean,
-  raw: boolean
-}) => {
+export const exportFile = (
+    {
+      fileName = 'table.xlsx',
+      sheetNames = ['sheet1'],
+      columns = [],
+      dataSource = [],
+      showHeader = true,
+      raw = false
+    }: {
+      fileName: string,
+      sheetNames: (string | number)[],
+      columns: ColumnType[],
+      dataSource: any,
+      showHeader: boolean,
+      raw: boolean
+    }
+): {
+  SheetNames: (string | number)[],
+  Sheets: any
+} => {
   const Sheets: any = {};
-  sheetNames.forEach((sheetName: string, sheetIndex: number) => {
+  sheetNames.forEach((sheetName: string | number, sheetIndex: number) => {
     const _columns = sameType(columns[sheetIndex], 'Array') ? columns[sheetIndex] : columns;
     const _dataSource = sameType(dataSource[sheetIndex], 'Array') ? dataSource[sheetIndex] : dataSource;
     const {sheet} = formatToSheet({
       columns: _columns,
       dataSource: _dataSource,
-      hideHeader,
+      showHeader,
       raw,
     });
     Sheets[sheetName] = sheet;
@@ -48,27 +55,36 @@ export const exportFile = ({
 /**
  * 转换成sheet对象
  */
-const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
-  columns: any,
-  dataSource: any,
-  hideHeader: boolean,
-  raw: boolean
-}) => {
+const formatToSheet = (
+    {
+      columns,
+      dataSource,
+      showHeader,
+      raw
+    }: {
+      columns: any,
+      dataSource: any,
+      showHeader: boolean,
+      raw: boolean
+    }
+) => {
   const sheet: any = {};
   const header: any = {};
-  const headerKeys: (number|string)[] = [];
+  const headerKeys: (number | string)[] = [];
   const $cols: { wpx: any }[] = [];
-  const $merges: {s: { c:number, r:number }, e: { c:number, r:number }}[] = [];
+  const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
   //
   const {columns: flatColumns, level: headerLevel} = flattenColumns(columns);
-  // 表头信息
-  const headerData = getHeaderData({columns, headerLevel});
-  Object.assign(sheet, headerData.sheet);
-  $merges.push(...headerData.merges);
+  if (showHeader) {
+    // 表头信息
+    const headerData = getHeaderData({columns, headerLevel});
+    Object.assign(sheet, headerData.sheet);
+    $merges.push(...headerData.merges);
+  }
   //
   flatColumns.forEach((col: any, colIndex: number) => {
     const key = col.dataIndex || col.key;
-    const title = col.title; // todo
+    const title = col.title;
     header[key] = title;
     headerKeys.push(key);
     $cols.push({wpx: formatToWpx(col.width)});
@@ -109,11 +125,11 @@ const formatToSheet = ({columns, dataSource, hideHeader, raw}: {
  * 获取表头数据
  */
 const getHeaderData = ({
-  columns,
-  headerLevel
+                         columns,
+                         headerLevel
 } : {
-  columns:any,
-  headerLevel:number
+  columns: ColumnType[],
+  headerLevel: number
 }) => {
   const sheet: any = {};
   const merges: {s: { c:number, r:number }, e: { c:number, r:number }}[] = [];
@@ -143,11 +159,11 @@ const getHeaderData = ({
  * 获取表头二维数组
  */
 const getHeader2dArray = ({
-  columns,
-  headerLevel
+                            columns,
+                            headerLevel
 } : {
-  columns:any,
-  headerLevel:number
+  columns: ColumnType[],
+  headerLevel: number
 }) => {
   const arr: any[][] = [];
   const deal = (_columns:any, startCol = 0, rowLevel = 0) => {
@@ -238,10 +254,10 @@ const formatToWpx = (width: number|string) => {
  * 获取单个合并信息
  */
 const getMerge = ({
-  result,
-  colIndex,
-  rowIndex,
-  headerLevel
+                    result,
+                    colIndex,
+                    rowIndex,
+                    headerLevel
 }:{
   result:any,
   colIndex: number,

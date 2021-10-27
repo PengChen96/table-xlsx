@@ -1,4 +1,4 @@
-import {Columns, Tables} from './interface';
+import {ColumnType, TableType} from './interface';
 
 const XLSX = require('xlsx');
 
@@ -16,7 +16,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
       cellStyles: true
     });
     /* Get Tables */
-    const tables: Tables[] = [];
+    const tables: TableType[] = [];
     wb.SheetNames.forEach((sheetName: string) => {
       const ws = wb.Sheets[sheetName];
       const dataSource = XLSX.utils.sheet_to_json(ws, {header:'A'});
@@ -44,8 +44,10 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
 /**
  * 生成列
  */
-export const getColumns = ({refStr, mergesArr}: { refStr: string, mergesArr: any }) => {
-  const columns: Columns[] = [];
+export const getColumns = (
+    {refStr, mergesArr}: { refStr: string, mergesArr: any }
+): ColumnType[] => {
+  const columns: ColumnType[] = [];
   if (!refStr) {
     return columns;
   }
