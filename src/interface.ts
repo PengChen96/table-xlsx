@@ -3,7 +3,10 @@ export interface ColumnType {
     title?: string,
     dataIndex?: string,
     mergesObj?: any,
-    render?: (value: any, row: any, rowIndex: number) => void
+    render?: (value: any, row: any, rowIndex: number) => void,
+    children?: ColumnType[],
+
+    [key: string]: any,
 }
 
 export interface TableType {

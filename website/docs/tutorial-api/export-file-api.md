@@ -11,7 +11,7 @@ title: exportFile
 columns | 表格列 | array | []
 dataSource | 表格数据 | array | []
 fileName | 文件名 | string | 'table.xlsx'
-hideHeader | 是否显示表头 | bool | false
+showHeader | 显示表头 | bool | true
 raw | 是否格式化值的类型 | bool | false
 sheetNames | sheet页 | array | ['sheet1']
 

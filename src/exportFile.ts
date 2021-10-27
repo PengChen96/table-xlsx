@@ -1,6 +1,7 @@
 import {ColumnType} from './interface';
 
 import {sameType} from './utils/base';
+import {flattenColumns} from './utils/columnsUtils';
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -22,12 +23,12 @@ export const exportFile = (
       showHeader = true,
       raw = false
     }: {
-      fileName: string,
-      sheetNames: (string | number)[],
+      fileName?: string,
+      sheetNames?: (string | number)[],
       columns: ColumnType[],
       dataSource: any,
-      showHeader: boolean,
-      raw: boolean
+      showHeader?: boolean,
+      raw?: boolean
     }
 ): {
   SheetNames: (string | number)[],
@@ -74,7 +75,7 @@ const formatToSheet = (
   const $cols: { wpx: any }[] = [];
   const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
   //
-  const {columns: flatColumns, level: headerLevel} = flattenColumns(columns);
+  const {columns: flatColumns, level: headerLevel} = flattenColumns({columns});
   if (showHeader) {
     // 表头信息
     const headerData = getHeaderData({columns, headerLevel});
@@ -127,7 +128,7 @@ const formatToSheet = (
 const getHeaderData = ({
                          columns,
                          headerLevel
-} : {
+                       } : {
   columns: ColumnType[],
   headerLevel: number
 }) => {
@@ -161,7 +162,7 @@ const getHeaderData = ({
 const getHeader2dArray = ({
                             columns,
                             headerLevel
-} : {
+                          } : {
   columns: ColumnType[],
   headerLevel: number
 }) => {
@@ -177,7 +178,7 @@ const getHeader2dArray = ({
       };
       let nextCol = prevCol;
       if (currentValue.children) {
-        const childrenLen = flattenColumns(currentValue.children).columns.length;
+        const childrenLen = flattenColumns({columns: currentValue.children}).columns.length;
         deal(currentValue.children, prevCol, rowLevel + 1);
         nextCol += childrenLen;
         arr[rowLevel][prevCol].merges = {
@@ -217,29 +218,7 @@ const getHeader2dArray = ({
   deal(columns);
   return arr;
 };
-/**
- * 扁平化列
- */
-const flattenColumns = (columns: any) => {
-  const newColumns: any[] = [];
-  const level: boolean[] = [];
-  const flatten = (_columns:any, index = 0) => {
-    level[index] = true;
-    index += 1;
-    _columns.forEach((v: any) => {
-      if (v.children && v.children.length > 0) {
-        flatten(v.children, index);
-      } else {
-        newColumns.push(v);
-      }
-    });
-  };
-  flatten(columns);
-  return {
-    level: level.length,
-    columns: newColumns
-  };
-};
+
 /**
  * 获取列宽
  */
@@ -258,7 +237,7 @@ const getMerge = ({
                     colIndex,
                     rowIndex,
                     headerLevel
-}:{
+                  }:{
   result:any,
   colIndex: number,
   rowIndex: number,
