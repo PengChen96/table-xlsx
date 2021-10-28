@@ -1,6 +1,9 @@
-import {flattenColumns} from "../utils/columnsUtils";
+import {flattenColumns, getHeader2dArray} from "../utils/columnsUtils";
 
-describe('flatten columns', () => {
+
+
+
+describe('columns utils default', () => {
 
   const columns = [
     {
@@ -26,12 +29,25 @@ describe('flatten columns', () => {
     }
   ];
   const result = flattenColumns({columns});
-  test('default test', () => {
+  const headerArray = getHeader2dArray({columns, headerLevel: result.level});
+
+  test('flattenColumns', () => {
 
     expect(result.level).toStrictEqual(3);
     expect(result.columns.length).toStrictEqual(6);
 
   });
+  test('getHeader2dArray', () => {
+
+    expect(headerArray.length).toStrictEqual(3);
+    expect(headerArray[0].length).toStrictEqual(6);
+
+  });
+
+
+});
+
+describe('columns utils childrenField', () => {
 
   const columns1 = [
     {
@@ -57,11 +73,18 @@ describe('flatten columns', () => {
     }
   ];
   const result1 = flattenColumns({columns: columns1, childrenField: 'subColumns'});
+  const headerArray = getHeader2dArray({columns: columns1, headerLevel: result1.level, childrenField: 'subColumns'});
+
   test('childrenField test', () => {
 
     expect(result1.level).toStrictEqual(3);
     expect(result1.columns.length).toStrictEqual(6);
 
   });
+  test('getHeader2dArray', () => {
 
+    expect(headerArray.length).toStrictEqual(3);
+    expect(headerArray[0].length).toStrictEqual(6);
+
+  });
 });

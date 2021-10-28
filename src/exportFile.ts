@@ -1,7 +1,7 @@
 import {ColumnType} from './interface';
 
 import {sameType} from './utils/base';
-import {flattenColumns} from './utils/columnsUtils';
+import {flattenColumns, getHeader2dArray} from './utils/columnsUtils';
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -155,68 +155,6 @@ const getHeaderData = ({
     sheet,
     merges
   };
-};
-/**
- * 获取表头二维数组
- */
-const getHeader2dArray = ({
-  columns,
-  headerLevel
-} : {
-  columns: ColumnType[],
-  headerLevel: number
-}) => {
-  const arr: any[][] = [];
-  const deal = (_columns:any, startCol = 0, rowLevel = 0) => {
-    _columns.reduce((prevCol:any, currentValue:any) => {
-      if (!arr[rowLevel]) {
-        arr[rowLevel] = [];
-      }
-      arr[rowLevel][prevCol] = {
-        title: currentValue.title,
-        children: currentValue.children,
-      };
-      let nextCol = prevCol;
-      if (currentValue.children) {
-        const childrenLen = flattenColumns({columns: currentValue.children}).columns.length;
-        deal(currentValue.children, prevCol, rowLevel + 1);
-        nextCol += childrenLen;
-        arr[rowLevel][prevCol].merges = {
-          s: {c: prevCol, r: rowLevel},
-          e: {c: nextCol - 1, r: rowLevel},
-        };
-        // 补全值 跨行的值
-        for(let c = prevCol + 1; c < nextCol; c++){
-          arr[rowLevel][c] = {
-            title: currentValue.title,
-            children: currentValue.children,
-          };
-        }
-      } else {
-        nextCol += 1;
-        // 有跨列
-        if (headerLevel - 1 - rowLevel > 0) {
-          arr[rowLevel][prevCol].merges = {
-            s: {c: prevCol, r: rowLevel},
-            e: {c: prevCol, r: headerLevel - 1},
-          };
-          // 补全值 跨列的值
-          for (let r = rowLevel + 1; r < headerLevel; r++) {
-            if (!arr[r]) {
-              arr[r] = [];
-            }
-            arr[r][prevCol] = {
-              title: currentValue.title,
-              children: currentValue.children,
-            };
-          }
-        }
-      }
-      return nextCol;
-    }, startCol);
-  };
-  deal(columns);
-  return arr;
 };
 
 /**

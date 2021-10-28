@@ -35,3 +35,60 @@ export const flattenColumns = (
     columns: newColumns
   };
 };
+
+/**
+ * 获取表头二维数组
+ */
+export const getHeader2dArray = ({
+  columns,
+  headerLevel,
+  childrenField = 'children'
+} : {
+  columns: ColumnType[],
+  headerLevel: number,
+  childrenField?: string
+}) => {
+  const arr: ColumnType[][] = [];
+  const deal = (_columns: ColumnType[], startCol = 0, rowLevel = 0) => {
+    _columns.reduce((prevCol: number, currentColumn: ColumnType) => {
+      if (!arr[rowLevel]) {
+        arr[rowLevel] = [];
+      }
+      arr[rowLevel][prevCol] = currentColumn;
+      let nextCol = prevCol;
+      const childColumns = currentColumn[childrenField];
+      if (childColumns) {
+        deal(childColumns, prevCol, rowLevel + 1);
+        const {columns: flatChildColumns} = flattenColumns({columns: childColumns, childrenField});
+        nextCol += flatChildColumns.length;
+        arr[rowLevel][prevCol].merges = {
+          s: {c: prevCol, r: rowLevel},
+          e: {c: nextCol - 1, r: rowLevel},
+        };
+        // 补全值 跨行的值
+        for(let c = prevCol + 1; c < nextCol; c++){
+          arr[rowLevel][c] = currentColumn;
+        }
+      } else {
+        nextCol += 1;
+        // 有跨列
+        if (headerLevel - 1 - rowLevel > 0) {
+          arr[rowLevel][prevCol].merges = {
+            s: {c: prevCol, r: rowLevel},
+            e: {c: prevCol, r: headerLevel - 1},
+          };
+          // 补全值 跨列的值
+          for (let r = rowLevel + 1; r < headerLevel; r++) {
+            if (!arr[r]) {
+              arr[r] = [];
+            }
+            arr[r][prevCol] = currentColumn;
+          }
+        }
+      }
+      return nextCol;
+    }, startCol);
+  };
+  deal(columns);
+  return arr;
+};
