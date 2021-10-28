@@ -45,7 +45,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
  * 生成列
  */
 export const getColumns = (
-    {refStr, mergesArr}: { refStr: string, mergesArr: any }
+  {refStr, mergesArr}: { refStr: string, mergesArr: any }
 ): ColumnType[] => {
   const columns: ColumnType[] = [];
   if (!refStr) {

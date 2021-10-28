@@ -4,13 +4,13 @@ import {ColumnType} from '../interface';
  * 扁平化列
  */
 export const flattenColumns = (
-    {
-      columns,
-      childrenField = 'children'
-    }: {
-      columns: ColumnType[],
-      childrenField?: string
-    }
+  {
+    columns,
+    childrenField = 'children'
+  } : {
+    columns: ColumnType[],
+    childrenField?: string
+  }
 ): {
   level: number,
   columns: ColumnType[]

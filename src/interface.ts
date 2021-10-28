@@ -5,7 +5,6 @@ export interface ColumnType {
     mergesObj?: any,
     render?: (value: any, row: any, rowIndex: number) => void,
     children?: ColumnType[],
-
     [key: string]: any,
 }
 

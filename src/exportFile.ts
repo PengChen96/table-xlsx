@@ -15,14 +15,14 @@ const XLSX = require('@pengchen/xlsx');
  * @param raw 是否格式化值的类型
  */
 export const exportFile = (
-    {
-      fileName = 'table.xlsx',
-      sheetNames = ['sheet1'],
-      columns = [],
-      dataSource = [],
-      showHeader = true,
-      raw = false
-    }: {
+  {
+    fileName = 'table.xlsx',
+    sheetNames = ['sheet1'],
+    columns = [],
+    dataSource = [],
+    showHeader = true,
+    raw = false
+  }: {
       fileName?: string,
       sheetNames?: (string | number)[],
       columns: ColumnType[],
@@ -57,12 +57,12 @@ export const exportFile = (
  * 转换成sheet对象
  */
 const formatToSheet = (
-    {
-      columns,
-      dataSource,
-      showHeader,
-      raw
-    }: {
+  {
+    columns,
+    dataSource,
+    showHeader,
+    raw
+  }: {
       columns: any,
       dataSource: any,
       showHeader: boolean,
@@ -126,9 +126,9 @@ const formatToSheet = (
  * 获取表头数据
  */
 const getHeaderData = ({
-                         columns,
-                         headerLevel
-                       } : {
+  columns,
+  headerLevel
+} : {
   columns: ColumnType[],
   headerLevel: number
 }) => {
@@ -160,9 +160,9 @@ const getHeaderData = ({
  * 获取表头二维数组
  */
 const getHeader2dArray = ({
-                            columns,
-                            headerLevel
-                          } : {
+  columns,
+  headerLevel
+} : {
   columns: ColumnType[],
   headerLevel: number
 }) => {
@@ -233,11 +233,11 @@ const formatToWpx = (width: number|string) => {
  * 获取单个合并信息
  */
 const getMerge = ({
-                    result,
-                    colIndex,
-                    rowIndex,
-                    headerLevel
-                  }:{
+  result,
+  colIndex,
+  rowIndex,
+  headerLevel
+}:{
   result:any,
   colIndex: number,
   rowIndex: number,
