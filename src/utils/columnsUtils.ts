@@ -92,3 +92,14 @@ export const getHeader2dArray = ({
   deal(columns);
   return arr;
 };
+
+/**
+ * 获取列宽
+ */
+export const formatToWpx = (width: number|string) => {
+  let wpx = width || 100;
+  if (typeof wpx === 'string') {
+    wpx = Number(wpx.replace(/[^0-9]/ig, ''));
+  }
+  return wpx;
+};

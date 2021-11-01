@@ -1,10 +1,12 @@
 import {ColumnType} from './interface';
 
 import {sameType} from './utils/base';
-import {flattenColumns, getHeader2dArray} from './utils/columnsUtils';
+import {flattenColumns, getHeader2dArray, formatToWpx} from './utils/columnsUtils';
+import {getStyles} from './utils/cellStylesUtils';
 
 const XLSX = require('@pengchen/xlsx');
 
+const ROW_HPX = 25;
 /**
  * 导出
  * @param fileName
@@ -23,13 +25,13 @@ export const exportFile = (
     showHeader = true,
     raw = false
   }: {
-      fileName?: string,
-      sheetNames?: (string | number)[],
-      columns: ColumnType[],
-      dataSource: any,
-      showHeader?: boolean,
-      raw?: boolean
-    }
+    fileName?: string,
+    sheetNames?: (string | number)[],
+    columns: ColumnType[][],
+    dataSource: any,
+    showHeader?: boolean,
+    raw?: boolean
+  }
 ): {
   SheetNames: (string | number)[],
   Sheets: any
@@ -62,39 +64,44 @@ const formatToSheet = (
     dataSource,
     showHeader,
     raw
-  }: {
-      columns: any,
-      dataSource: any,
-      showHeader: boolean,
-      raw: boolean
-    }
+  } : {
+    columns: ColumnType[],
+    dataSource: any,
+    showHeader: boolean,
+    raw: boolean
+  }
 ) => {
   const sheet: any = {};
   const header: any = {};
-  const headerKeys: (number | string)[] = [];
   const $cols: { wpx: any }[] = [];
+  const $rows: { hpx: any }[] = [];
   const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
   //
   const {columns: flatColumns, level: headerLevel} = flattenColumns({columns});
   if (showHeader) {
+    for (let i = 0; i < headerLevel; i++) {
+      $rows.push({hpx: ROW_HPX});
+    }
     // 表头信息
     const headerData = getHeaderData({columns, headerLevel});
     Object.assign(sheet, headerData.sheet);
     $merges.push(...headerData.merges);
   }
+
   //
   flatColumns.forEach((col: any, colIndex: number) => {
     const key = col.dataIndex || col.key;
-    const title = col.title;
-    header[key] = title;
-    headerKeys.push(key);
+    header[key] = col.title;
     $cols.push({wpx: formatToWpx(col.width)});
     const xAxis = XLSX.utils.encode_col(colIndex);
     dataSource.forEach((data: any, rowIndex: number) => {
+      if (colIndex === 0) {
+        $rows.push({hpx: ROW_HPX});
+      }
       const value = data[key];
       if (col.render) {
-        const result = col.render(value, data, rowIndex);
-        const merge = getMerge({result, colIndex, rowIndex, headerLevel});
+        const renderResult = col.render(value, data, rowIndex);
+        const merge = getMerge({renderResult, colIndex, rowIndex, headerLevel});
         if (merge) {
           $merges.push(merge);
         }
@@ -102,13 +109,9 @@ const formatToSheet = (
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
         v: value,
-        s: {
-          font: {
-            name: '宋体',
-            color: { rgb: '333' },
-          },
-          border: defaultBorder,
-        }
+        s: getStyles({
+          alignmentHorizontal: 'left',
+        }),
       };
     });
   });
@@ -116,6 +119,7 @@ const formatToSheet = (
   const ye = headerLevel + dataSource.length;
   sheet['!ref'] = `A1:${xe}${ye}`;
   sheet['!cols'] = $cols;
+  sheet['!rows'] = $rows;
   sheet['!merges'] = $merges;
   return {
     sheet
@@ -139,12 +143,14 @@ const getHeaderData = ({
   headerArr.forEach((rowsArr:any, rowIndex:number) => {
     rowsArr.forEach((cols:any, colIndex:number) => {
       const xAxis = XLSX.utils.encode_col(colIndex);
+      // https://github.com/SheetJS/sheetjs#cell-object
       sheet[`${xAxis}${rowIndex + 1}`] = {
         t: 's',
         v: cols.title,
-        s: {
-          ...headerStyle
-        }
+        s: getStyles({
+          fillFgColorRgb: 'e9ebf0',
+          fontBold: true
+        }),
       };
       if (cols.merges) {
         merges.push(cols.merges);
@@ -158,31 +164,21 @@ const getHeaderData = ({
 };
 
 /**
- * 获取列宽
- */
-const formatToWpx = (width: number|string) => {
-  let wpx = width || 100;
-  if (typeof width !== 'number') {
-    wpx = Number(width.replace(/[^0-9]/ig, ''));
-  }
-  return wpx;
-};
-/**
  * 获取单个合并信息
  */
 const getMerge = ({
-  result,
+  renderResult,
   colIndex,
   rowIndex,
   headerLevel
-}:{
-  result:any,
+} : {
+  renderResult:any,
   colIndex: number,
   rowIndex: number,
   headerLevel: number
 }) => {
-  if (result.props) {
-    const {colSpan, rowSpan} = result.props;
+  if (renderResult.props) {
+    const {colSpan, rowSpan} = renderResult.props;
     if ((colSpan && colSpan !== 1) || (rowSpan && rowSpan !== 1)) {
       const realRowIndex = rowIndex + headerLevel;
       const merge:any = {
@@ -195,44 +191,4 @@ const getMerge = ({
     }
   }
   return false;
-};
-
-/**
- *
- */
-const defaultBorder = {
-  top: {
-    style: 'thin',
-    color: { rgb: 'd1d3d8' }
-  },
-  left: {
-    style: 'thin',
-    color: { rgb: 'd1d3d8' }
-  },
-  bottom: {
-    style: 'thin',
-    color: { rgb: 'd1d3d8' }
-  },
-  right: {
-    style: 'thin',
-    color: { rgb: 'd1d3d8' }
-  }
-};
-/**
- * 表头样式
- */
-const headerStyle = {
-  font: {
-    name: '宋体',
-    color: { rgb: '333' },
-    bold: true,
-  },
-  border: defaultBorder,
-  fill: {
-    fgColor: { rgb: 'e9ebf0' }
-  },
-  alignment: {
-    horizontal: 'center',
-    vertical: 'center',
-  },
 };
