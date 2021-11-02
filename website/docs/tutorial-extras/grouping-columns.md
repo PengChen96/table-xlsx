@@ -2,115 +2,117 @@
 sidebar_position: 2
 ---
 
-# 分组表头表格导出
+# 表头分组-导出
 
 ```jsx live
 function MyComponent() {
-  const [data, setData] = React.useState([]);
-  const [cols, setCols] = React.useState([]);
-  React.useEffect(() => {
-    init();
-  }, [])
-  const init = () => {
-      const columns = [{
-          key: 'c1',
-          dataIndex: 'c1',
-          title: 'title1',
-          width: 100,
-        }, {
-        title: 'title1',
-        children: [
-          {
-            title: 'title1-1',
-            children: [{
-              title: 'title1-1-1',
-              dataIndex: 'c1',
-              key: 'c1',
-              width: 100,
-            }, {
-             title: 'title1-1-2',
-             dataIndex: 'c2',
-             key: 'c2',
-             width: 100,
-            }],
-          },
-          {
-            title: 'title1-2',
-            dataIndex: 'c3',
-            key: 'c3',
-            width: 100,
-          },
-        ],
-      }, {
-        key: 'c2',
-        dataIndex: 'c2',
-        title: 'title2',
-        width: 100,
-      }, {
-        key: 'c3',
-        dataIndex: 'c3',
-        title: 'title3',
-        width: 100,
-        children: [
-          {
-            key: 'c3',
-            dataIndex: 'c3',
-            title: 'title3',
-            width: 100,
-          },
-          {
-            key: 'c3',
-            dataIndex: 'c3',
-            title: 'title3',
-            width: 100,
-          },
-        ]
-      }, {
-        key: 'c4',
-        dataIndex: 'c4',
-        title: 'title4',
-        width: 100,
-      }];
-      const dataSource = [{
-        c1: 'data1',
-        c2: 'data2',
-        c3: 'data3',
-        c4: 'data4',
-      }, {
-        c1: 11,
-        c2: 22,
-        c3: 33,
-        c4: 44,
-      }, {
-        c1: 11,
-        c2: 22,
-        c3: 33,
-        c4: 44,
-      }];
-      setData(dataSource);
-      setCols(columns);
-    };
+
+  const columns = [
+    {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    width: 100,
+    },
+    {
+      title: 'Other',
+      children: [
+        {
+          title: 'Age',
+          dataIndex: 'age',
+          key: 'age',
+          width: 150,
+        },
+        {
+          title: 'Address',
+          children: [
+            {
+              title: 'Street',
+              dataIndex: 'street',
+              key: 'street',
+              width: 150,
+            },
+            {
+              title: 'Block',
+              children: [
+                {
+                  title: 'Building',
+                  dataIndex: 'building',
+                  key: 'building',
+                  width: 100,
+                },
+                {
+                  title: 'Door No.',
+                  dataIndex: 'number',
+                  key: 'number',
+                  width: 100,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: 'Company',
+      children: [
+        {
+          title: 'Company Address',
+          dataIndex: 'companyAddress',
+          key: 'companyAddress',
+          width: 200,
+        },
+        {
+          title: 'Company Name',
+          dataIndex: 'companyName',
+          key: 'companyName',
+        },
+      ],
+    },
+    {
+      title: 'Gender',
+      dataIndex: 'gender',
+      key: 'gender',
+      width: 80,
+    },
+  ];
+    
+  const dataSource = [];
+  for (let i = 0; i < 3; i++) {
+    dataSource.push({
+      key: i,
+      name: 'John Brown',
+      age: i + 1,
+      street: 'Lake Park',
+      building: 'C',
+      number: 2035,
+      companyAddress: 'Lake Street 42',
+      companyName: 'SoftLake Co',
+      gender: 'M',
+    });
+  }
+
   const onExportFileClick = () => {
     exportFile({
-     sheetNames: ['a'],
-     columns: cols,
-     dataSource: data,
+      columns: columns,
+      dataSource: dataSource,
     });
   };
   return (
     <div>
-      <button onClick={() => onExportFileClick()}>export</button>
-      <div>
-        <Table
-          style={{marginTop: 20}}
-          dataSource={data}
-          columns={cols}
-          bordered
-          size={'small'}
-          pagination={false}
-        />
-      </div>
+    <button onClick={() => onExportFileClick()}>export</button>
+    <div>
+      <Table
+        style={{marginTop: 20}}
+        dataSource={dataSource}
+        columns={columns}
+        bordered
+        size={'small'}
+        pagination={false}
+      />
+    </div>
     </div>
   );
+
 }
 ```

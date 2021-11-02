@@ -1,4 +1,4 @@
-import {ColumnType} from './interface';
+import {ColumnType, CellStyleType} from './interface';
 
 import {sameType} from './utils/base';
 import {flattenColumns, getHeader2dArray, formatToWpx} from './utils/columnsUtils';
@@ -23,14 +23,20 @@ export const exportFile = (
     columns = [],
     dataSource = [],
     showHeader = true,
-    raw = false
+    raw = false,
+    cellStyle = {},
+    headerCellStyle = {},
+    bodyCellStyle = {},
   }: {
     fileName?: string,
     sheetNames?: (string | number)[],
     columns: ColumnType[][],
     dataSource: any,
     showHeader?: boolean,
-    raw?: boolean
+    raw?: boolean,
+    cellStyle?: CellStyleType,
+    headerCellStyle?: CellStyleType,
+    bodyCellStyle?: CellStyleType,
   }
 ): {
   SheetNames: (string | number)[],
@@ -45,6 +51,9 @@ export const exportFile = (
       dataSource: _dataSource,
       showHeader,
       raw,
+      cellStyle,
+      headerCellStyle,
+      bodyCellStyle,
     });
     Sheets[sheetName] = sheet;
   });
@@ -63,18 +72,23 @@ const formatToSheet = (
     columns,
     dataSource,
     showHeader,
-    raw
+    raw,
+    cellStyle,
+    headerCellStyle,
+    bodyCellStyle,
   } : {
     columns: ColumnType[],
     dataSource: any,
     showHeader: boolean,
-    raw: boolean
+    raw: boolean,
+    cellStyle?: CellStyleType,
+    headerCellStyle?: CellStyleType,
+    bodyCellStyle?: CellStyleType,
   }
 ) => {
   const sheet: any = {};
-  const header: any = {};
-  const $cols: { wpx: any }[] = [];
-  const $rows: { hpx: any }[] = [];
+  const $cols: { wpx: number }[] = [];
+  const $rows: { hpx: number }[] = [];
   const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
   //
   const {columns: flatColumns, level: headerLevel} = flattenColumns({columns});
@@ -83,15 +97,13 @@ const formatToSheet = (
       $rows.push({hpx: ROW_HPX});
     }
     // 表头信息
-    const headerData = getHeaderData({columns, headerLevel});
+    const headerData = getHeaderData({columns, headerLevel, cellStyle, headerCellStyle});
     Object.assign(sheet, headerData.sheet);
     $merges.push(...headerData.merges);
   }
-
   //
   flatColumns.forEach((col: any, colIndex: number) => {
     const key = col.dataIndex || col.key;
-    header[key] = col.title;
     $cols.push({wpx: formatToWpx(col.width)});
     const xAxis = XLSX.utils.encode_col(colIndex);
     dataSource.forEach((data: any, rowIndex: number) => {
@@ -111,6 +123,8 @@ const formatToSheet = (
         v: value,
         s: getStyles({
           alignmentHorizontal: 'left',
+          ...cellStyle,
+          ...bodyCellStyle,
         }),
       };
     });
@@ -131,10 +145,14 @@ const formatToSheet = (
  */
 const getHeaderData = ({
   columns,
-  headerLevel
+  headerLevel,
+  cellStyle,
+  headerCellStyle
 } : {
   columns: ColumnType[],
-  headerLevel: number
+  headerLevel: number,
+  cellStyle?: CellStyleType,
+  headerCellStyle?: CellStyleType,
 }) => {
   const sheet: any = {};
   const merges: {s: { c:number, r:number }, e: { c:number, r:number }}[] = [];
@@ -149,7 +167,9 @@ const getHeaderData = ({
         v: cols.title,
         s: getStyles({
           fillFgColorRgb: 'e9ebf0',
-          fontBold: true
+          fontBold: true,
+          ...cellStyle,
+          ...headerCellStyle,
         }),
       };
       if (cols.merges) {

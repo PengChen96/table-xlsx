@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
-# 导出xlsx
+# 设置样式-导出
 
 ```jsx live
 function MyComponent() {
@@ -43,6 +43,15 @@ function MyComponent() {
     exportFile({
       columns: columns,
       dataSource: dataSource,
+      cellStyle: {
+        borderColorRgb: '333'
+      },
+      headerCellStyle: {
+        fontColorRgb: 'ff8040'
+      },
+      bodyCellStyle: {
+        fillFgColorRgb: 'EEEEE0'
+      },
     });
   };
   return (

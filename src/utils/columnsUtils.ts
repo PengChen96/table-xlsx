@@ -96,7 +96,7 @@ export const getHeader2dArray = ({
 /**
  * 获取列宽
  */
-export const formatToWpx = (width: number|string) => {
+export const formatToWpx = (width: number|string) : number => {
   let wpx = width || 100;
   if (typeof wpx === 'string') {
     wpx = Number(wpx.replace(/[^0-9]/ig, ''));
