@@ -1,7 +1,7 @@
 import {ColumnType, CellStyleType} from './interface';
 
 import {sameType} from './utils/base';
-import {flattenColumns, getHeader2dArray, formatToWpx} from './utils/columnsUtils';
+import {flattenColumns, getHeader2dArray, formatToWpx, getPathValue} from './utils/columnsUtils';
 import {getStyles} from './utils/cellStylesUtils';
 
 const XLSX = require('@pengchen/xlsx');
@@ -110,7 +110,7 @@ const formatToSheet = (
       if (colIndex === 0) {
         $rows.push({hpx: ROW_HPX});
       }
-      const value = data[key];
+      const value = getPathValue(data, key);
       if (col.render) {
         const renderResult = col.render(value, data, rowIndex);
         const merge = getMerge({renderResult, colIndex, rowIndex, headerLevel});

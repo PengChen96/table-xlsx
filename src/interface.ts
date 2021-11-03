@@ -32,3 +32,5 @@ export interface ColorSpecType {
     tint: '-0.25', // specifying an integer index to a theme color and a tint value (default 0)
     index: 64, // default value for fill.bgColor
 }
+
+export type DataIndex = string | number | readonly (string | number)[];

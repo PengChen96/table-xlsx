@@ -21,7 +21,7 @@ sheetNames | sheet页 | array | ['sheet1']
 ## columns
 参数 | 说明 | 类型 | 默认值
 ---|---|---|---
-dataIndex | 列数据在数据项中对应的路径，暂不支持通过数组查询嵌套路径 | string | -
+dataIndex | 列数据在数据项中对应的路径，支持通过数组查询嵌套路径 | string/string[] | -
 render | 生成复杂数据的渲染函数，参数分别为当前行的值，当前行数据，行索引，@return 里面可以设置表格行/列合并 | function(text, record, index) {} | -
 title | 列头显示文字 | string | -
 width | 列宽度 | string/number | 100
