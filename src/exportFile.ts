@@ -1,7 +1,8 @@
 import {ColumnType, CellStyleType} from './interface';
 
 import {sameType} from './utils/base';
-import {flattenColumns, getHeader2dArray, formatToWpx, getPathValue} from './utils/columnsUtils';
+import {flattenColumns, getHeader2dArray, formatToWpx} from './utils/columnsUtils';
+import {getPathValue, getRenderValue} from './utils/valueUtils';
 import {getStyles} from './utils/cellStylesUtils';
 
 const XLSX = require('@pengchen/xlsx');
@@ -13,8 +14,12 @@ const ROW_HPX = 25;
  * @param sheetNames
  * @param columns
  * @param dataSource
- * @param hideHeader 是否显示表头
+ * @param showHeader 是否显示表头
  * @param raw 是否格式化值的类型
+ * @param cellStyle 单元格样式
+ * @param headerCellStyle 单元格样式
+ * @param bodyCellStyle 单元格样式
+ * @param useRender 是否使用render返回的值
  */
 export const exportFile = (
   {
@@ -27,6 +32,7 @@ export const exportFile = (
     cellStyle = {},
     headerCellStyle = {},
     bodyCellStyle = {},
+    useRender = true,
   }: {
     fileName?: string,
     sheetNames?: (string | number)[],
@@ -37,6 +43,7 @@ export const exportFile = (
     cellStyle?: CellStyleType,
     headerCellStyle?: CellStyleType,
     bodyCellStyle?: CellStyleType,
+    useRender?: boolean,
   }
 ): {
   SheetNames: (string | number)[],
@@ -76,6 +83,7 @@ const formatToSheet = (
     cellStyle,
     headerCellStyle,
     bodyCellStyle,
+    useRender,
   } : {
     columns: ColumnType[],
     dataSource: any,
@@ -84,6 +92,7 @@ const formatToSheet = (
     cellStyle?: CellStyleType,
     headerCellStyle?: CellStyleType,
     bodyCellStyle?: CellStyleType,
+    useRender?: boolean,
   }
 ) => {
   const sheet: any = {};
@@ -110,9 +119,10 @@ const formatToSheet = (
       if (colIndex === 0) {
         $rows.push({hpx: ROW_HPX});
       }
-      const value = getPathValue(data, key);
+      let value = getPathValue(data, key);
       if (col.render) {
         const renderResult = col.render(value, data, rowIndex);
+        value = useRender ? getRenderValue(renderResult) : value;
         const merge = getMerge({renderResult, colIndex, rowIndex, headerLevel});
         if (merge) {
           $merges.push(merge);

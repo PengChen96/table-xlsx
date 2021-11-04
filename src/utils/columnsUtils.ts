@@ -103,29 +103,3 @@ export const formatToWpx = (width: number|string) : number => {
   }
   return wpx;
 };
-
-function toArray<T>(arr: T | readonly T[]): T[] {
-  if (arr === undefined || arr === null) {
-    return [];
-  }
-  return (Array.isArray(arr) ? arr : [arr]) as T[];
-}
-/**
- * 通过path获取值
- */
-export const getPathValue = (record: any, path: DataIndex) : string|number => {
-  // Skip if path is empty
-  if (!path && typeof path !== 'number') {
-    return '';
-  }
-  const pathList = toArray(path);
-  let current = record;
-  for (let i = 0; i < pathList.length; i += 1) {
-    if (!current) {
-      return '';
-    }
-    const prop = pathList[i];
-    current = current[prop];
-  }
-  return current;
-};
