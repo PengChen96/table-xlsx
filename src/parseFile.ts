@@ -19,7 +19,8 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
     const tables: TableType[] = [];
     wb.SheetNames.forEach((sheetName: string) => {
       const ws = wb.Sheets[sheetName];
-      const dataSource = XLSX.utils.sheet_to_json(ws, {header:'A'});
+      // https://github.com/SheetJS/sheetjs#json
+      const dataSource = XLSX.utils.sheet_to_json(ws, {header: 'A', blankrows: true});
       const columns = getColumns({
         refStr: ws['!ref'],
         mergesArr: ws['!merges'],
