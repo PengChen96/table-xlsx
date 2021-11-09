@@ -1,6 +1,6 @@
 import {ColumnType, TableType} from './interface';
 
-const XLSX = require('xlsx');
+const XLSX = require('@pengchen/xlsx');
 
 /**
  * 读取文件
