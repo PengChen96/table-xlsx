@@ -12,6 +12,41 @@ npm install --save table-xlsx @pengchen/xlsx
 yarn add table-xlsx @pengchen/xlsx
 ```
 
+## 使用
+### 导出
+```javascript
+import { exportFile } from "table-xlsx";
+
+const columns = [
+  { title: '姓名', dataIndex: 'name' },
+  { title: '年龄', dataIndex: 'age' },
+  { title: '住址', dataIndex: 'address' },
+];
+const dataSource = [
+  { key: '1', name: '胡彦斌', age: 32, address: '西湖区湖底公园1号' },
+  { key: '2', name: '胡彦祖', age: 42, address: '西湖区湖底公园1号' },
+];
+
+exportFile({ columns, dataSource });
+```
+### 解析
+```javascript
+import { parseFile } from "table-xlsx";
+
+parseFile({ file/*binary*/ }).then((result) => {
+  // result = {
+  //   wb, // wookbook对象
+  //   tables: [{
+  //     sheetName,
+  //     dataSource,
+  //     columns,
+  //   },
+  //   ...
+  //   ]
+  // }
+});
+```
+
 ## API
 ### exportFile
 参数 | 说明 | 类型 | 默认值
