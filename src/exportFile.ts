@@ -1,7 +1,7 @@
-import {ColumnType, CellStyleType} from './interface';
+import {CellStyleType, ColumnType} from './interface';
 
 import {sameType} from './utils/base';
-import {flattenColumns, getHeader2dArray, formatToWpx} from './utils/columnsUtils';
+import {flattenColumns, formatToWpx, getHeader2dArray} from './utils/columnsUtils';
 import {getPathValue, getRenderValue} from './utils/valueUtils';
 import {getStyles} from './utils/cellStylesUtils';
 
@@ -100,7 +100,8 @@ const formatToSheet = (
   const $rows: { hpx: number }[] = [];
   const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
   //
-  const {columns: flatColumns, level: headerLevel} = flattenColumns({columns});
+  const {columns: flatColumns, level} = flattenColumns({columns});
+  let headerLevel = level;
   if (showHeader) {
     for (let i = 0; i < headerLevel; i++) {
       $rows.push({hpx: ROW_HPX});
@@ -109,6 +110,8 @@ const formatToSheet = (
     const headerData = getHeaderData({columns, headerLevel, cellStyle, headerCellStyle});
     Object.assign(sheet, headerData.sheet);
     $merges.push(...headerData.merges);
+  } else {
+    headerLevel = 0;
   }
   //
   flatColumns.forEach((col: any, colIndex: number) => {
