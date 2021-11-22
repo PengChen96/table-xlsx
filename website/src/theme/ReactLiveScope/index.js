@@ -6,11 +6,22 @@
  */
 
 import React from 'react';
-import {exportFile, parseFile} from '../../../../dist';
 import {Table, Upload} from 'antd';
-import {VTablePro} from 'virtualized-table';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import {InboxOutlined} from '@ant-design/icons';
+import {exportFile, parseFile} from '../../../../dist';
 import 'antd/dist/antd.css';
+
+function MyLibComponentBrowserOnly(props) {
+  return (
+    <BrowserOnly fallback={<div>...</div>}>
+      {() => {
+        const {VTablePro} = require('virtualized-table');
+        return <VTablePro {...props} />;
+      }}
+    </BrowserOnly>
+  );
+}
 
 // Add react-live imports you need here
 const ReactLiveScope = {
@@ -19,7 +30,7 @@ const ReactLiveScope = {
   Table,
   Upload,
   InboxOutlined,
-  VTablePro,
+  VTablePro: MyLibComponentBrowserOnly,
   exportFile,
   parseFile,
 };

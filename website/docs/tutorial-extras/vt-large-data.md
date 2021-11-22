@@ -16,6 +16,7 @@ function MyComponent() {
         title: `标题${i}`,
         dataIndex: `title${i}`,
         key: `title${i}`,
+        width: 120
       });
     }
     return columns;
@@ -48,6 +49,7 @@ function MyComponent() {
           dataSource={dataSource}
           columns={columns}
           bordered
+          scroll={{x: COL_NUM*120, y: 300}}
         />
       </div>
     </div>
