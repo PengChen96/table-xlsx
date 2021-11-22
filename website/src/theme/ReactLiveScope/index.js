@@ -8,6 +8,7 @@
 import React from 'react';
 import {exportFile, parseFile} from '../../../../dist';
 import {Table, Upload} from 'antd';
+import {VTablePro} from 'virtualized-table';
 import {InboxOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
@@ -18,6 +19,7 @@ const ReactLiveScope = {
   Table,
   Upload,
   InboxOutlined,
+  VTablePro,
   exportFile,
   parseFile,
 };
