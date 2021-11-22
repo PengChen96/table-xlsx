@@ -20,14 +20,14 @@ export const getStyles = ({
 }) => {
   return {
     fill: {
-      fgColor: { rgb: fillFgColorRgb }
+      fgColor: { rgb: formatRgb(fillFgColorRgb) }
     },
     font: {
       name: fontName,
-      color: { rgb: fontColorRgb },
+      color: { rgb: formatRgb(fontColorRgb) },
       bold: fontBold,
     },
-    border: getDefaultBorder({style: borderStyle, colorRgb: borderColorRgb}),
+    border: getDefaultBorder({style: borderStyle, colorRgb: formatRgb(borderColorRgb)}),
     numFmt: undefined,
     alignment: {
       horizontal: alignmentHorizontal,
@@ -74,4 +74,8 @@ const getDefaultBorder = (
     }
   };
   return border;
+};
+
+const formatRgb = (hex:string) => {
+  return hex.replace('#', '');
 };
