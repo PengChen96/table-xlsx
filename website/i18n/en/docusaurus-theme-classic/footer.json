@@ -1,0 +1,34 @@
+{
+  "link.title.学习": {
+    "message": "Learn",
+    "description": "The title of the footer links column with title=学习 in the footer"
+  },
+  "link.title.社群": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=社群 in the footer"
+  },
+  "link.title.更多": {
+    "message": "More",
+    "description": "The title of the footer links column with title=更多 in the footer"
+  },
+  "link.item.label.教程": {
+    "message": "Tutorial",
+    "description": "The label of footer link with label=教程 linking to /docs/intro"
+  },
+  "link.item.label.Stack Overflow": {
+    "message": "Stack Overflow",
+    "description": "The label of footer link with label=Stack Overflow linking to https://stackoverflow.com/questions/tagged/table-xlsx"
+  },
+  "link.item.label.Blog": {
+    "message": "Blog",
+    "description": "The label of footer link with label=Blog linking to /blog"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/PengChen96/table-xlsx"
+  },
+  "copyright": {
+    "message": "Copyright © 2021 My Project, Inc. Built with Docusaurus.",
+    "description": "The footer copyright"
+  }
+}

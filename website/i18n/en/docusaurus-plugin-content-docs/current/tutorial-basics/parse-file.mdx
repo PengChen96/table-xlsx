@@ -1,0 +1,54 @@
+---
+sidebar_position: 3
+---
+
+# Parse File
+
+```jsx live
+function MyComponent() {
+    const { Dragger } = Upload;
+    const [data, setData] = React.useState([]);
+    const [cols, setCols] = React.useState([]);
+    const handleFile = (file) => {
+        parseFile({file}).then((result) => {
+          const columns = result.tables[0].columns.map((col) => {
+            col.ellipsis = true;
+            return col;
+          });
+          setData(result.tables[0].dataSource);
+          setCols(columns);
+        });
+    }
+
+    const props = {
+      name: 'file',
+      showUploadList: false,
+      beforeUpload: (file) => {
+        handleFile(file);
+      }
+    };
+    return <div>
+        <Dragger
+            {...props}
+        >
+            <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+              band files
+            </p>
+        </Dragger>
+        <Table
+            dataSource={data}
+            columns={cols}
+            scroll={{x: true}}
+            bordered
+            size={'small'}
+            pagination={false}
+            style={{marginTop: 20}}
+        />
+    </div>
+}
+```

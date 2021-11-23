@@ -1,0 +1,18 @@
+{
+  "title": {
+    "message": "table-xlsx",
+    "description": "The title in the navbar"
+  },
+  "item.label.教程": {
+    "message": "Tutorial",
+    "description": "Navbar item with label 教程"
+  },
+  "item.label.博客": {
+    "message": "Blog",
+    "description": "Navbar item with label 博客"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

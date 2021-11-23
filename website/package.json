@@ -11,7 +11,9 @@
     "deploy1": "GIT_USER=PengChen96 docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
+    "write-translations": "docusaurus write-translations --locale en",
+    "write-en-dir": "mkdir -p i18n/zh-cn/docusaurus-plugin-content-docs/current",
+    "write-en": "cp -r docs/** i18n/en/docusaurus-plugin-content-docs/current",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
