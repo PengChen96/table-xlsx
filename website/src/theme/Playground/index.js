@@ -22,9 +22,9 @@ function ResultWithHeader() {
     <>
       <Header>
         <Translate
-          id="theme.Playground.result"
+          id="theme.Playground.结果"
           description="The result label of the live codeblocks">
-          Result
+          结果
         </Translate>
       </Header>
       <div className={styles.playgroundPreview}>
@@ -40,9 +40,9 @@ function EditorWithHeader() {
     <>
       <Header>
         <Translate
-          id="theme.Playground.liveEditor"
+          id="theme.Playground.编辑器"
           description="The live editor label of the live codeblocks">
-          Live Editor
+          编辑器
         </Translate>
       </Header>
       <LiveEditor className={styles.playgroundEditor}/>
