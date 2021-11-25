@@ -4,42 +4,119 @@ const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = {
-  // Change to your "entry-point".
-  mode: 'development',
-  entry: './src/index',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
-    libraryTarget: 'commonjs2'
-  },
-  resolve: {
-    extensions: ['.ts', '.js'],
-    fallback: {
-      'fs': false,
-      'crypto': false,
-      // 'crypto': require.resolve('crypto-browserify'),
-      // 'buffer': require.resolve('buffer'),
-    }
-  },
-  module: {
-    rules: [{
-      // Include ts, tsx, js, and jsx files.
-      test: /\.(ts|js)x?$/,
-      exclude: /node_modules/,
-      use: ['ts-loader']
-    }],
-  },
-  externals: [nodeExternals()],
-  // optimization: {
-  // minimizer: [new UglifyJsPlugin()],
-  // },
-  optimization: {
-    minimizer: [new UglifyJsPlugin()],
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer']
-    })
-  ]
-};
+const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
+  const name = libraryTarget === 'commonjs2' ? 'development' : `development.${libraryTarget}`;
+  return {
+    mode: 'development',
+    devtool: 'source-map',
+    entry: './src/index',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: `table-xlsx.${name}.js`,
+      libraryTarget: libraryTarget
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
+      fallback: {
+        'fs': false,
+        'crypto': false,
+      }
+    },
+    module: {
+      rules: [{
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: ['ts-loader']
+      }],
+    },
+    externals: [nodeExternals()],
+    optimization: {
+      minimizer: [new UglifyJsPlugin()],
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer']
+      })
+    ]
+  }
+});
+const prodConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
+  const name = libraryTarget === 'commonjs2' ? 'production' : `production.${libraryTarget}`;
+  return {
+    mode: 'production',
+    entry: './src/index',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: `table-xlsx.${name}.js`,
+      libraryTarget: libraryTarget
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
+      fallback: {
+        'fs': false,
+        'crypto': false,
+      }
+    },
+    module: {
+      rules: [{
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: ['ts-loader']
+      }],
+    },
+    externals: [nodeExternals()],
+    optimization: {
+      minimizer: [new UglifyJsPlugin()],
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer']
+      })
+    ]
+  }
+})
+module.exports = [
+  ...devConfig,
+  ...prodConfig,
+  {
+    mode: 'development',
+    devtool: 'source-map',
+    entry: './src/index',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: `table-xlsx.esm.js`,
+      library: {
+        type: 'module'
+      }
+    },
+    experiments: {
+      outputModule: true,
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
+      fallback: {
+        'fs': false,
+        'crypto': false,
+      }
+    },
+    module: {
+      rules: [{
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: ['ts-loader']
+      }],
+    },
+    externals: [nodeExternals()],
+    optimization: {
+      minimizer: [new UglifyJsPlugin()],
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer']
+      })
+    ]
+  }
+];

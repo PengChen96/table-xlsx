@@ -1,4 +1,5 @@
 dist/
 src/__tests__/
 webpack.*.js
+index.js
 
