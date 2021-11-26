@@ -2,7 +2,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
   const name = libraryTarget === 'commonjs2' ? 'development' : `development.${libraryTarget}`;
@@ -32,7 +32,8 @@ const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
     },
     externals: [nodeExternals()],
     optimization: {
-      minimizer: [new UglifyJsPlugin()],
+      minimize: true,
+      minimizer: [new TerserPlugin()],
     },
     plugins: [
       new webpack.ProvidePlugin({
@@ -67,9 +68,6 @@ const prodConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
       }],
     },
     externals: [nodeExternals()],
-    optimization: {
-      minimizer: [new UglifyJsPlugin()],
-    },
     plugins: [
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer']
@@ -111,7 +109,8 @@ module.exports = [
     },
     externals: [nodeExternals()],
     optimization: {
-      minimizer: [new UglifyJsPlugin()],
+      minimize: true,
+      minimizer: [new TerserPlugin()],
     },
     plugins: [
       new webpack.ProvidePlugin({
