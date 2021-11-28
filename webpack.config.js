@@ -79,7 +79,7 @@ module.exports = [
   ...devConfig,
   ...prodConfig,
   {
-    mode: 'development',
+    mode: 'production',
     devtool: 'source-map',
     entry: './src/index',
     output: {
