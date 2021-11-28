@@ -33,7 +33,7 @@
   ],
   "author": "PengChen",
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@pengchen/xlsx": "0.0.1-alpha.1"
   },
   "devDependencies": {
