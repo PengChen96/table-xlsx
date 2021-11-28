@@ -40,7 +40,7 @@ module.exports = {
           position: 'left',
           label: '教程',
         },
-        {to: '/blog', label: '博客', position: 'left'},
+        // {to: '/blog', label: '博客', position: 'left'},
         {
           type: 'localeDropdown',
           position: 'right',
@@ -76,10 +76,10 @@ module.exports = {
         {
           title: '更多',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
+            // {
+            //   label: 'Blog',
+            //   to: '/blog',
+            // },
             {
               label: 'GitHub',
               href: 'https://github.com/PengChen96/table-xlsx',

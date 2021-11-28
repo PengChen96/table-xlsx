@@ -9,7 +9,7 @@ import React from 'react';
 import {Table, Upload} from 'antd';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {InboxOutlined} from '@ant-design/icons';
-import {exportFile, parseFile} from '../../../../dist';
+import {exportFile, parseFile} from '../../../../index';
 import 'antd/dist/antd.css';
 
 function MyLibComponentBrowserOnly(props) {
