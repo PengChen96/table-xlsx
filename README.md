@@ -25,6 +25,7 @@ yarn add table-xlsx @pengchen/xlsx
 |-----------:|:-------------------------------------------|
 |    `unpkg` | <https://unpkg.com/xlsx/>                  |
 | `jsDelivr` | <https://jsdelivr.com/package/npm/xlsx>    |
+</details>
 
 ## 使用
 ### 导出
