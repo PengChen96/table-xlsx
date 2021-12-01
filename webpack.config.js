@@ -4,6 +4,20 @@ const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const TerserPlugin = require("terser-webpack-plugin");
 
+
+const resolve = {
+  extensions: ['.ts', '.js'],
+  fallback: {
+    'fs': false,
+    'crypto': false,
+  }
+};
+const rules = [{
+  // Include ts, tsx, js, and jsx files.
+  test: /\.(ts|js)x?$/,
+  exclude: /node_modules/,
+  use: ['ts-loader']
+}];
 const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
   const name = libraryTarget === 'commonjs2' ? 'development' : `development.${libraryTarget}`;
   return {
@@ -15,26 +29,11 @@ const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
       filename: `table-xlsx.${name}.js`,
       libraryTarget: libraryTarget
     },
-    resolve: {
-      extensions: ['.ts', '.js'],
-      fallback: {
-        'fs': false,
-        'crypto': false,
-      }
-    },
+    resolve,
     module: {
-      rules: [{
-        // Include ts, tsx, js, and jsx files.
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: ['ts-loader']
-      }],
+      rules,
     },
     externals: [nodeExternals()],
-    optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()],
-    },
     plugins: [
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer']
@@ -52,22 +51,15 @@ const prodConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
       filename: `table-xlsx.${name}.js`,
       libraryTarget: libraryTarget
     },
-    resolve: {
-      extensions: ['.ts', '.js'],
-      fallback: {
-        'fs': false,
-        'crypto': false,
-      }
-    },
+    resolve,
     module: {
-      rules: [{
-        // Include ts, tsx, js, and jsx files.
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: ['ts-loader']
-      }],
+      rules,
     },
     externals: [nodeExternals()],
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    },
     plugins: [
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer']
@@ -92,20 +84,9 @@ module.exports = [
     experiments: {
       outputModule: true,
     },
-    resolve: {
-      extensions: ['.ts', '.js'],
-      fallback: {
-        'fs': false,
-        'crypto': false,
-      }
-    },
+    resolve,
     module: {
-      rules: [{
-        // Include ts, tsx, js, and jsx files.
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: ['ts-loader']
-      }],
+      rules,
     },
     externals: [nodeExternals()],
     optimization: {
