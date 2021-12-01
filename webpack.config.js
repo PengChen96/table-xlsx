@@ -33,7 +33,7 @@ const devConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
     module: {
       rules,
     },
-    externals: [nodeExternals()],
+    externals: libraryTarget === 'umd' ? undefined : [nodeExternals()],
     plugins: [
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer']
@@ -55,7 +55,7 @@ const prodConfig = ['commonjs2', 'umd'].map((libraryTarget) => {
     module: {
       rules,
     },
-    externals: [nodeExternals()],
+    externals: libraryTarget === 'umd' ? undefined : [nodeExternals()],
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin()],

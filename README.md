@@ -6,11 +6,25 @@
 基于SheetJS封装，实现导出文件和解析文件生成表数据功能
 
 ## 安装
+**使用npm或yarn**
 ```shell
 npm install --save table-xlsx @pengchen/xlsx
 # or
 yarn add table-xlsx @pengchen/xlsx
 ```
+**使用CDN**
+```html
+<!-- 注意: 部署时，将 "development.umd.js" 替换为 "production.umd.js"-->
+<script crossorigin src="https://unpkg.com/table-xlsx/dist/table-xlsx.development.umd.js"></script>
+```
+如果使用CDN的方式引入table-xlsx，建议设置[crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)属性
+<details>
+  <summary><b>CDN Availability</b> (click to show)</summary>
+
+|    CDN     | URL                                        |
+|-----------:|:-------------------------------------------|
+|    `unpkg` | <https://unpkg.com/xlsx/>                  |
+| `jsDelivr` | <https://jsdelivr.com/package/npm/xlsx>    |
 
 ## 使用
 ### 导出
