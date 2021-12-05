@@ -4,6 +4,7 @@ sidebar_position: 1
 
 # 安装
 
+**使用npm或yarn**
 ```shell
 npm install --save table-xlsx @pengchen/xlsx
 # or
@@ -13,6 +14,20 @@ yarn add table-xlsx @pengchen/xlsx
 ⚡️ [**SheetJS/js-xlsx**](https://github.com/SheetJS/sheetjs)社区版本不支持样式，您可以使用[**@pengchen/xlsx**](https://github.com/PengChen96/sheetjs)(基于js-xlsx@0.17.0修改)  
 💸 当然，您也可以直接使用[SheetJS Pro](https://sheetjs.com/pro)版本
 :::
+**使用CDN**
+```html
+<!-- 注意: 部署时，将 "development.umd.js" 替换为 "production.umd.js"-->
+<script crossorigin src="https://unpkg.com/table-xlsx/dist/table-xlsx.development.umd.js"></script>
+```
+如果使用CDN的方式引入table-xlsx，建议设置[crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)属性
+<details>
+  <summary><b>CDN Availability</b> (click to show)</summary>
+
+|    CDN     | URL                                        |
+|-----------:|:-------------------------------------------|
+|    `unpkg` | <https://unpkg.com/xlsx/>                  |
+| `jsDelivr` | <https://jsdelivr.com/package/npm/xlsx>    |
+</details>
 
 ## 使用
 ### 导出xlsx
