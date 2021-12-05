@@ -24,8 +24,8 @@ yarn add table-xlsx @pengchen/xlsx
 
 |    CDN     | URL                                        |
 |-----------:|:-------------------------------------------|
-|    `unpkg` | <https://unpkg.com/xlsx/>                  |
-| `jsDelivr` | <https://jsdelivr.com/package/npm/xlsx>    |
+|    `unpkg` | <https://unpkg.com/table-xlsx/>                  |
+| `jsDelivr` | <https://jsdelivr.com/package/npm/table-xlsx>    |
 </details>
 
 ## 使用
