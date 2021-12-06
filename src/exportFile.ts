@@ -142,7 +142,7 @@ const formatToSheet = (
       };
     });
   });
-  const xe = XLSX.utils.encode_col(flatColumns.length - 1);
+  const xe = XLSX.utils.encode_col(Math.max(flatColumns.length - 1, 0));
   const ye = headerLevel + dataSource.length;
   sheet['!ref'] = `A1:${xe}${ye}`;
   sheet['!cols'] = $cols;
