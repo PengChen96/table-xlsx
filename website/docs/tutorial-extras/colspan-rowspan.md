@@ -125,7 +125,7 @@ function MyComponent() {
   };
   return (
     <div>
-    <button onClick={() => onExportFileClick()}>export</button>
+    <Button onClick={() => onExportFileClick()}>export</Button>
     <div>
       <Table
         style={{marginTop: 20}}

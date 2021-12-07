@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Table, Upload} from 'antd';
+import {Button, Table, Upload} from 'antd';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {InboxOutlined} from '@ant-design/icons';
 import {exportFile, parseFile} from '../../../../index';
@@ -27,6 +27,7 @@ function MyLibComponentBrowserOnly(props) {
 const ReactLiveScope = {
   React,
   ...React,
+  Button,
   Table,
   Upload,
   InboxOutlined,

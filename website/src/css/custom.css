@@ -36,3 +36,32 @@ table {
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+html[data-theme='dark'] h1 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] h2 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] h3 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] h4 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] h5 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] h6 {
+  color: #f5f6f7;
+}
+
+html[data-theme='dark'] body {
+  background-color: #18191a;
+  color: #f5f6f7;
+}
