@@ -9,7 +9,7 @@ module.exports = {
   baseUrl: '/table-xlsx/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.png',
   organizationName: 'PengChen96', // Usually your GitHub org/user name.
   projectName: 'table-xlsx', // Usually your repo name.
   i18n: {
@@ -31,7 +31,7 @@ module.exports = {
       title: 'table-xlsx',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
