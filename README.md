@@ -5,6 +5,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/table-xlsx.svg?style=flat-square)](https://www.npmjs.com/package/table-xlsx)  
 
 基于SheetJS封装，实现导出文件和解析文件生成表数据功能
+<img src="https://raw.githubusercontent.com/PengChen96/table-xlsx/master/table-xlsx.png"/>
 
 ## 安装
 **使用npm或yarn**
