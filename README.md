@@ -7,10 +7,9 @@
 [![codecov](https://codecov.io/gh/PengChen96/table-xlsx/branch/master/graph/badge.svg?token=D75YLE0DLW)](https://codecov.io/gh/PengChen96/table-xlsx)
 [![NPM downloads](http://img.shields.io/npm/dm/table-xlsx.svg?style=flat-square)](https://www.npmjs.com/package/table-xlsx)  
 
-基于SheetJS封装，实现导出文件和解析文件生成表数据功能
+基于SheetJS封装，帮助你快速将xlsx文件转换成表格数据或表格数据导出生成xlsx文件，导出支持简单样式设置、多sheet页、行/列合并等
 
-## 📖 文档&演示地址
-地址：pengchen96.github.io/table-xlsx/docs/intro
+文档&演示地址：https://pengchen96.github.io/table-xlsx/docs/intro
 
 ## 📦 安装
 **使用npm或yarn**
@@ -69,7 +68,7 @@ parseFile({ file/*binary*/ }).then((result) => {
 });
 ```
 
-## 🧰 API
+## 📖 API
 ### exportFile
 参数 | 说明 | 类型 | 默认值
 ---|---|---|---
@@ -123,5 +122,5 @@ file | 文件 | binary | -
     ]
 ```
 
-## License
+## 📝 License
 table-xlsx is available under the MIT License.
