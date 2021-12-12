@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://github.com/PengChen96/table-xlsx/table-xlsx/en/blog"/>
     <subtitle>table-xlsx Blog</subtitle>
-    <icon>https://github.com/PengChen96/table-xlsx/table-xlsx/en/img/favicon.ico</icon>
+    <icon>https://github.com/PengChen96/table-xlsx/table-xlsx/en/img/favicon.png</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>welcome</id>
