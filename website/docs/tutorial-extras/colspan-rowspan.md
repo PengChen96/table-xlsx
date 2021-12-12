@@ -4,7 +4,11 @@ sidebar_position: 1
 
 # 表格行/列合并-导出
 
+表格支持行/列合并，使用 render 里的单元格属性 colSpan 或者 rowSpan 设值为 0 时，设置的表格不会渲染。
+
 ```jsx live
+// import { Button, Table } from 'antd';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const renderContent = (value, row, index) => {

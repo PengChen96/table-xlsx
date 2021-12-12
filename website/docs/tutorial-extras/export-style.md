@@ -3,8 +3,11 @@ sidebar_position: 3
 ---
 
 # 设置样式-导出
+目前支持单元格、字体、填充颜色、对齐方式的设置
 
 ```jsx live
+// import { Button, Table } from 'antd';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const dataSource = [
@@ -47,7 +50,7 @@ function MyComponent() {
         borderColorRgb: '333'
       },
       headerCellStyle: {
-        fontColorRgb: 'ff8040'
+        fontColorRgb: 'FF8040'
       },
       bodyCellStyle: {
         fillFgColorRgb: 'EEEEE0'

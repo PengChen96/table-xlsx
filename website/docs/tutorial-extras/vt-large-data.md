@@ -3,12 +3,19 @@ sidebar_position: 6
 ---
 
 # 大数据量-导出
+导出数据速度由运行的电脑性能决定，经本人电脑测试，该示例25列10000行的数据量导出大概要4～5秒左右的时间
+
+电脑配置  
+处理器：2 GHz 四核Intel Core i5  
+内存：16 GB 3733 MHz LPDDR4X
 
 ```jsx live
+// import { VTablePro } from 'virtualized-table';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const COL_NUM = 25;
-  const DATA_NUM = 1000;
+  const DATA_NUM = 10000;
   const getColumns = (colNum = COL_NUM) => {
     const columns = [];
     for (let i = 0; i < colNum; i++) {

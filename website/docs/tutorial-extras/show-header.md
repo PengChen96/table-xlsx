@@ -3,8 +3,11 @@ sidebar_position: 5
 ---
 
 # 不显示表头-导出
+设置showHeader不显示表头
 
 ```jsx live
+// import { Button, Table } from 'antd';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const dataSource = [

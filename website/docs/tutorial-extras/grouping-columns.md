@@ -3,8 +3,11 @@ sidebar_position: 2
 ---
 
 # 表头分组-导出
+columns[n] 可以内嵌 children，以渲染分组表头。
 
 ```jsx live
+// import { Button, Table } from 'antd';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const columns = [

@@ -3,8 +3,11 @@ sidebar_position: 4
 ---
 
 # 多sheet页-导出
+通过设置sheetNames、columns和dataSource为二维数组，可以导出多sheet页excel文件
 
 ```jsx live
+// import { Button, Table } from 'antd';
+// import { exportFile } from 'table-xlsx';
 function MyComponent() {
 
   const dataSource = [

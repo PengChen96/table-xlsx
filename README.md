@@ -9,7 +9,10 @@
 
 基于SheetJS封装，实现导出文件和解析文件生成表数据功能
 
-## 安装
+## 📖 文档&演示地址
+地址：pengchen96.github.io/table-xlsx/docs/intro
+
+## 📦 安装
 **使用npm或yarn**
 ```shell
 npm install --save table-xlsx @pengchen/xlsx
@@ -31,7 +34,7 @@ yarn add table-xlsx @pengchen/xlsx
 | `jsDelivr` | <https://jsdelivr.com/package/npm/table-xlsx>    |
 </details>
 
-## 使用
+## 🔨 使用
 ### 导出
 ```javascript
 import { exportFile } from "table-xlsx";
@@ -66,7 +69,7 @@ parseFile({ file/*binary*/ }).then((result) => {
 });
 ```
 
-## API
+## 🧰 API
 ### exportFile
 参数 | 说明 | 类型 | 默认值
 ---|---|---|---

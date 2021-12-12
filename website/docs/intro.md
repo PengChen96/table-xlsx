@@ -3,8 +3,7 @@ sidebar_position: 1
 ---
 
 # 简介
-
-⚡ **table-xlsx** 基于SheetJS封装，简化那最后的那一点代码
+⚡ **table-xlsx** 基于SheetJS封装
 
 ⚡ 能够帮助你快速将xlsx文件转换成表格数据或表格数据导出生成xlsx文件  
 
