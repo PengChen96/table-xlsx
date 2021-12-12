@@ -54,7 +54,7 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          <img src="https://raw.githubusercontent.com/PengChen96/table-xlsx/master/table-xlsx.png" alt=""/>
+          <img src="../../static/img/table-xlsx.png" alt=""/>
           {/*{FeatureList.map((props, idx) => (*/}
           {/*  <Feature key={idx} {...props} />*/}
           {/*))}*/}
