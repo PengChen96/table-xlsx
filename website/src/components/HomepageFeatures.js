@@ -54,9 +54,10 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
+          <img src="https://raw.githubusercontent.com/PengChen96/table-xlsx/master/table-xlsx.png" alt=""/>
+          {/*{FeatureList.map((props, idx) => (*/}
+          {/*  <Feature key={idx} {...props} />*/}
+          {/*))}*/}
         </div>
       </div>
     </section>
