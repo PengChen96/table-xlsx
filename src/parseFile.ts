@@ -1,11 +1,11 @@
-import {ColumnType, TableType} from './interface';
+import {ColumnType, DefaultValueType, MergesArrType, MergesObjType, TableType} from './interface';
 
 const XLSX = require('@pengchen/xlsx');
 
 /**
  * 读取文件
  */
-export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject) => {
+export const parseFile = ({file}: { file: File }) => new Promise((resolve, reject) => {
   const reader = new FileReader();
   const rABS = !!reader.readAsBinaryString;
   reader.onload = (e) => {
@@ -46,7 +46,7 @@ export const parseFile = ({file}: { file: any }) => new Promise((resolve, reject
  * 生成列
  */
 export const getColumns = (
-  {refStr, mergesArr}: { refStr: string, mergesArr: any }
+    {refStr, mergesArr}: { refStr: string, mergesArr: MergesArrType[] }
 ): ColumnType[] => {
   const columns: ColumnType[] = [];
   if (!refStr) {
@@ -60,7 +60,7 @@ export const getColumns = (
       title: XLSX.utils.encode_col(colIndex),
       dataIndex: XLSX.utils.encode_col(colIndex),
       mergesObj,
-      render: (value: any, row: any, rowIndex: number) => {
+      render: (value: any, row: DefaultValueType, rowIndex: number) => {
         return {
           children: value,
           props: mergesObj[`${colIndex}:${rowIndex}`],
@@ -73,9 +73,9 @@ export const getColumns = (
 /**
  * 获取合并项
  */
-export const getMergesObj = (mergesArr: any = []) => {
-  const mergesObj: { [key: string]: any } = {};
-  mergesArr.forEach((m: { s: { c: number; r: number; }; e: { c: number; r: number; }; }) => {
+export const getMergesObj = (mergesArr: MergesArrType[]) => {
+  const mergesObj: MergesObjType = {};
+  mergesArr.forEach((m: MergesArrType) => {
     const msc = m.s.c;
     const msr = m.s.r;
     const mec = m.e.c;

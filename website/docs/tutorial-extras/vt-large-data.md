@@ -53,10 +53,9 @@ function MyComponent() {
       <Button onClick={() => onExportFileClick()}>export</Button>
       <div style={{marginTop: 20}}>
         <VTablePro
-          dataSource={dataSource}
-          columns={columns}
           bordered
-          scroll={{x: COL_NUM*120, y: 300}}
+          columns={columns}
+          dataSource={dataSource}
         />
       </div>
     </div>

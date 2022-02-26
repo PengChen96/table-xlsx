@@ -1,4 +1,4 @@
-import {CellStyleType, ColumnType} from './interface';
+import {CellStyleType, ColumnType, DataType, HeaderCellType, MergesArrType, SheetType} from './interface';
 
 import {sameType} from './utils/base';
 import {flattenColumns, formatToWpx, getHeader2dArray} from './utils/columnsUtils';
@@ -37,7 +37,7 @@ export const exportFile = (
     fileName?: string,
     sheetNames?: (string | number)[],
     columns: ColumnType[][],
-    dataSource: any,
+    dataSource: DataType[][],
     showHeader?: boolean,
     raw?: boolean,
     cellStyle?: CellStyleType,
@@ -47,9 +47,9 @@ export const exportFile = (
   }
 ): {
   SheetNames: (string | number)[],
-  Sheets: any
+  Sheets: { [key: string]: SheetType }
 } => {
-  const Sheets: any = {};
+  const Sheets: { [key: string]: SheetType } = {};
   sheetNames.forEach((sheetName: string | number, sheetIndex: number) => {
     const _columns = sameType(columns[sheetIndex], 'Array') ? columns[sheetIndex] : columns;
     const _dataSource = sameType(dataSource[sheetIndex], 'Array') ? dataSource[sheetIndex] : dataSource;
@@ -86,7 +86,7 @@ const formatToSheet = (
     useRender,
   } : {
     columns: ColumnType[],
-    dataSource: any,
+    dataSource: DataType[],
     showHeader: boolean,
     raw: boolean,
     cellStyle?: CellStyleType,
@@ -95,10 +95,10 @@ const formatToSheet = (
     useRender?: boolean,
   }
 ) => {
-  const sheet: any = {};
+  const sheet: SheetType = {};
   const $cols: { wpx: number }[] = [];
   const $rows: { hpx: number }[] = [];
-  const $merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
+  const $merges: MergesArrType[] = [];
   //
   const {columns: flatColumns, level} = flattenColumns({columns});
   let headerLevel = level;
@@ -114,11 +114,11 @@ const formatToSheet = (
     headerLevel = 0;
   }
   //
-  flatColumns.forEach((col: any, colIndex: number) => {
+  flatColumns.forEach((col: ColumnType, colIndex: number) => {
     const key = col.dataIndex || col.key;
     $cols.push({wpx: formatToWpx(col.width)});
     const xAxis = XLSX.utils.encode_col(colIndex);
-    dataSource.forEach((data: any, rowIndex: number) => {
+    dataSource.forEach((data: DataType, rowIndex: number) => {
       if (colIndex === 0) {
         $rows.push({hpx: ROW_HPX});
       }
@@ -167,12 +167,12 @@ const getHeaderData = ({
   cellStyle?: CellStyleType,
   headerCellStyle?: CellStyleType,
 }) => {
-  const sheet: any = {};
-  const merges: {s: { c:number, r:number }, e: { c:number, r:number }}[] = [];
+  const sheet: SheetType = {};
+  const merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
 
-  const headerArr:any = getHeader2dArray({columns, headerLevel});
-  headerArr.forEach((rowsArr:any, rowIndex:number) => {
-    rowsArr.forEach((cols:any, colIndex:number) => {
+  const headerArr: HeaderCellType[][] = getHeader2dArray({columns, headerLevel});
+  headerArr.forEach((rowsArr: HeaderCellType[], rowIndex: number) => {
+    rowsArr.forEach((cols: HeaderCellType, colIndex: number) => {
       const xAxis = XLSX.utils.encode_col(colIndex);
       // https://github.com/SheetJS/sheetjs#cell-object
       sheet[`${xAxis}${rowIndex + 1}`] = {
@@ -205,7 +205,9 @@ const getMerge = ({
   rowIndex,
   headerLevel
 } : {
-  renderResult:any,
+  renderResult: {
+    props: { colSpan: number, rowSpan: number }
+  },
   colIndex: number,
   rowIndex: number,
   headerLevel: number
@@ -214,12 +216,13 @@ const getMerge = ({
     const {colSpan, rowSpan} = renderResult.props;
     if ((colSpan && colSpan !== 1) || (rowSpan && rowSpan !== 1)) {
       const realRowIndex = rowIndex + headerLevel;
-      const merge:any = {
-        s: { c: colIndex, r: realRowIndex},
-        e: { c: undefined, r: undefined},
+      const merge: MergesArrType = {
+        s: {c: colIndex, r: realRowIndex},
+        e: {
+          c: colIndex + (colSpan || 1) - 1,
+          r: realRowIndex + (rowSpan || 1) - 1
+        },
       };
-      merge.e.c = colIndex + (colSpan || 1) - 1;
-      merge.e.r = realRowIndex + (rowSpan || 1) - 1;
       return merge;
     }
   }

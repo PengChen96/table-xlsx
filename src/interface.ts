@@ -1,16 +1,42 @@
+export type DefaultValueType = Record<string, any>
+export type DataIndex = string | number | undefined | readonly (string | number)[];
+
+export interface MergesArrType {
+    s: {
+        c: number,
+        r: number
+    },
+    e: {
+        c: number,
+        r: number
+    }
+}
+
+export interface MergesObjType {
+    [key: string]: {
+        colSpan?: number,
+        rowSpan?: number,
+    }
+}
+
 export interface ColumnType {
     key?: string,
     title?: string,
     dataIndex?: string,
-    mergesObj?: any,
-    render?: (value: any, row: any, rowIndex: number) => void,
+    mergesObj?: MergesObjType,
+    render?: (value: any, row: DefaultValueType, rowIndex: number) => any,
     children?: ColumnType[],
+
+    [key: string]: any,
+}
+
+export interface DataType {
     [key: string]: any,
 }
 
 export interface TableType {
     sheetName?: string,
-    dataSource?: any,
+    dataSource?: DataType[],
     columns?: ColumnType[],
 }
 
@@ -25,12 +51,24 @@ export interface CellStyleType {
     alignmentVertical?: string,
 }
 
-export interface ColorSpecType {
-    rgb?: string, // specifying a hex ARGB value
-    auto: 1, // specifying automatic values
-    theme: '1', // specifying an integer index to a theme color and a tint value (default 0)
-    tint: '-0.25', // specifying an integer index to a theme color and a tint value (default 0)
-    index: 64, // default value for fill.bgColor
+export interface SheetType {
+    '!ref'?: string,
+    '!cols'?: { wpx?: number }[],
+    '!rows'?: { hpx?: number }[],
+    '!merges'?: MergesArrType[],
+
+    [key: string]: {
+        t?: string,
+        v?: string | number,
+        s?: DefaultValueType
+    } | undefined | string
+        | { wpx?: number }[]
+        | { hpx?: number }[]
+        | MergesArrType[],
+
 }
 
-export type DataIndex = string | number | readonly (string | number)[];
+export interface HeaderCellType {
+    title?: string,
+    merges?: MergesArrType
+}
