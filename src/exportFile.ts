@@ -171,6 +171,7 @@ const getHeaderData = ({
   const merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
 
   const headerArr: HeaderCellType[][] = getHeader2dArray({columns, headerLevel});
+  const mergesWeakMap = new WeakMap();
   headerArr.forEach((rowsArr: HeaderCellType[], rowIndex: number) => {
     rowsArr.forEach((cols: HeaderCellType, colIndex: number) => {
       const xAxis = XLSX.utils.encode_col(colIndex);
@@ -185,7 +186,8 @@ const getHeaderData = ({
           ...headerCellStyle,
         }),
       };
-      if (cols.merges) {
+      if (cols.merges && !mergesWeakMap.get(cols.merges)) {
+        mergesWeakMap.set(cols.merges, true); // Microsoft Excel 如果传了相同的merges信息，文件会损坏，做个去重
         merges.push(cols.merges);
       }
     });
