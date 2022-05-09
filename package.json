@@ -1,6 +1,6 @@
 {
   "name": "table-xlsx",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Based on SheetJS encapsulation, the function of exporting files and parsing files to generate table data is realized",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -34,7 +34,7 @@
   "author": "PengChen",
   "license": "MIT",
   "peerDependencies": {
-    "@pengchen/xlsx": "0.0.3"
+    "@pengchen/xlsx": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -63,6 +63,6 @@
     "webpack-node-externals": "1.6.0"
   },
   "dependencies": {
-    "@pengchen/xlsx": "0.0.3"
+    "@pengchen/xlsx": "^0.0.4"
   }
 }
