@@ -34,7 +34,7 @@
   "author": "PengChen",
   "license": "MIT",
   "peerDependencies": {
-    "@pengchen/xlsx": "^0.0.4"
+    "@pengchen/xlsx": "^0.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -63,6 +63,6 @@
     "webpack-node-externals": "1.6.0"
   },
   "dependencies": {
-    "@pengchen/xlsx": "^0.0.4"
+    "@pengchen/xlsx": "^0.0.5"
   }
 }
