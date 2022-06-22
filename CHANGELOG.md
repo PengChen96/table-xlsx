@@ -1,6 +1,11 @@
 
 ## CHANGELOG
 
+### 0.1.6
+新增：
+    - 新增txHeaderCellStyle、onTxBodyCell设置单个单元格样式
+    - 新增onTxBodyRow设置行样式
+
 ### 0.1.5
 修复：
     - @pengchen/xlsx0.0.5版本样式失效问题

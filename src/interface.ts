@@ -25,6 +25,7 @@ export interface ColumnType {
     dataIndex?: string,
     mergesObj?: MergesObjType,
     render?: (value: any, row: DefaultValueType, rowIndex: number) => any,
+    onTxBodyCell?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
     children?: ColumnType[],
 
     [key: string]: any,
@@ -70,5 +71,6 @@ export interface SheetType {
 
 export interface HeaderCellType {
     title?: string,
-    merges?: MergesArrType
+    merges?: MergesArrType,
+    txHeaderCellStyle?: CellStyleType,
 }

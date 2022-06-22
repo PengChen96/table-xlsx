@@ -1,4 +1,12 @@
-import {CellStyleType, ColumnType, DataType, HeaderCellType, MergesArrType, SheetType} from './interface';
+import {
+  CellStyleType,
+  ColumnType,
+  DataType,
+  DefaultValueType,
+  HeaderCellType,
+  MergesArrType,
+  SheetType
+} from './interface';
 
 import {sameType} from './utils/base';
 import {flattenColumns, formatToWpx, getHeader2dArray} from './utils/columnsUtils';
@@ -33,6 +41,7 @@ export const exportFile = (
     headerCellStyle = {},
     bodyCellStyle = {},
     useRender = true,
+    onTxBodyRow,
   }: {
     fileName?: string,
     sheetNames?: (string | number)[],
@@ -44,6 +53,7 @@ export const exportFile = (
     headerCellStyle?: CellStyleType,
     bodyCellStyle?: CellStyleType,
     useRender?: boolean,
+    onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
   }
 ): {
   SheetNames: (string | number)[],
@@ -61,6 +71,7 @@ export const exportFile = (
       cellStyle,
       headerCellStyle,
       bodyCellStyle,
+      onTxBodyRow,
     });
     Sheets[sheetName] = sheet;
   });
@@ -75,25 +86,27 @@ export const exportFile = (
  * 转换成sheet对象
  */
 const formatToSheet = (
-  {
-    columns,
-    dataSource,
-    showHeader,
-    raw,
-    cellStyle,
-    headerCellStyle,
-    bodyCellStyle,
-    useRender,
-  } : {
-    columns: ColumnType[],
-    dataSource: DataType[],
-    showHeader: boolean,
-    raw: boolean,
-    cellStyle?: CellStyleType,
-    headerCellStyle?: CellStyleType,
-    bodyCellStyle?: CellStyleType,
-    useRender?: boolean,
-  }
+    {
+      columns,
+      dataSource,
+      showHeader,
+      raw,
+      cellStyle,
+      headerCellStyle,
+      bodyCellStyle,
+      useRender,
+      onTxBodyRow,
+    } : {
+      columns: ColumnType[],
+      dataSource: DataType[],
+      showHeader: boolean,
+      raw: boolean,
+      cellStyle?: CellStyleType,
+      headerCellStyle?: CellStyleType,
+      bodyCellStyle?: CellStyleType,
+      useRender?: boolean,
+      onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
+    }
 ) => {
   const sheet: SheetType = {};
   const $cols: { wpx: number }[] = [];
@@ -131,6 +144,16 @@ const formatToSheet = (
           $merges.push(merge);
         }
       }
+      let txBodyRowStyle = {};
+      let txBodyCellStyle = {};
+      if (onTxBodyRow) {
+        const result = onTxBodyRow(data, rowIndex);
+        txBodyRowStyle = result?.style || {};
+      }
+      if (col.onTxBodyCell) {
+        const result = col.onTxBodyCell(data, rowIndex);
+        txBodyCellStyle = result?.style || {};
+      }
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
         v: value,
@@ -138,6 +161,8 @@ const formatToSheet = (
           alignmentHorizontal: 'left',
           ...cellStyle,
           ...bodyCellStyle,
+          ...txBodyRowStyle,
+          ...txBodyCellStyle,
         }),
       };
     });
@@ -175,6 +200,7 @@ const getHeaderData = ({
   headerArr.forEach((rowsArr: HeaderCellType[], rowIndex: number) => {
     rowsArr.forEach((cols: HeaderCellType, colIndex: number) => {
       const xAxis = XLSX.utils.encode_col(colIndex);
+      const style = cols?.txHeaderCellStyle || {};
       // https://github.com/SheetJS/sheetjs#cell-object
       sheet[`${xAxis}${rowIndex + 1}`] = {
         t: 's',
@@ -184,6 +210,7 @@ const getHeaderData = ({
           fontBold: true,
           ...cellStyle,
           ...headerCellStyle,
+          ...style,
         }),
       };
       if (cols.merges && !mergesWeakMap.get(cols.merges)) {
