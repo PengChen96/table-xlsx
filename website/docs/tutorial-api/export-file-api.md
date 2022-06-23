@@ -28,7 +28,7 @@ title | 列头显示文字 | string | -
 width | 列宽度 | string/number | 100
 
 
-## cellStyle、headerCellStyle、bodyCellStyle
+## cellStyle、headerCellStyle、bodyCellStyle、txHeaderCellStyle、onTxBodyCell().style
 参数 | 说明 | 类型 | 默认值
 ---|---|---|---
 fontName | 字体 | string | 'Calibri'

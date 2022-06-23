@@ -3,7 +3,7 @@ sidebar_position: 3
 ---
 
 # 设置行样式-导出
-目前支持单元格、字体、填充颜色、对齐方式的设置
+通过onTxBodyRow行样式
 
 ```jsx live
 // import { VTablePro } from 'virtualized-table';
