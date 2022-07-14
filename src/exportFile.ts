@@ -66,6 +66,7 @@ export const exportFile = (
     const {sheet} = formatToSheet({
       columns: _columns,
       dataSource: _dataSource,
+      useRender,
       showHeader,
       raw,
       cellStyle,
@@ -156,7 +157,7 @@ const formatToSheet = (
       }
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
-        v: value,
+        v: value ? value : '',
         s: getStyles({
           alignmentHorizontal: 'left',
           ...cellStyle,
@@ -241,7 +242,7 @@ const getMerge = ({
   rowIndex: number,
   headerLevel: number
 }) => {
-  if (renderResult.props) {
+  if (renderResult?.props) {
     const {colSpan, rowSpan} = renderResult.props;
     if ((colSpan && colSpan !== 1) || (rowSpan && rowSpan !== 1)) {
       const realRowIndex = rowIndex + headerLevel;
