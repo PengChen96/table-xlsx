@@ -87,17 +87,17 @@ export const exportFile = (
  * 转换成sheet对象
  */
 const formatToSheet = (
-    {
-      columns,
-      dataSource,
-      showHeader,
-      raw,
-      cellStyle,
-      headerCellStyle,
-      bodyCellStyle,
-      useRender,
-      onTxBodyRow,
-    } : {
+  {
+    columns,
+    dataSource,
+    showHeader,
+    raw,
+    cellStyle,
+    headerCellStyle,
+    bodyCellStyle,
+    useRender,
+    onTxBodyRow,
+  } : {
       columns: ColumnType[],
       dataSource: DataType[],
       showHeader: boolean,

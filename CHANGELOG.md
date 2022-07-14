@@ -1,6 +1,11 @@
 
 ## CHANGELOG
 
+### 0.1.7-alpha.1
+修复：
+    - useRender参数不生效
+    - 导出的excel内容会显示null
+
 ### 0.1.6
 新增：
     - 新增txHeaderCellStyle、onTxBodyCell设置单个单元格样式
