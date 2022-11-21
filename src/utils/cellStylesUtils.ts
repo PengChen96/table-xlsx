@@ -1,17 +1,17 @@
 
 export const getStyles = ({
-                            fontName = 'Calibri',
-                            fontColorRgb = '333333',
-                            fontBold = false,
-                            fillFgColorRgb = 'ffffff',
-                            borderStyle = 'thin',
-                            borderColorRgb = 'd1d3d8',
-                            alignmentHorizontal = 'center', // left center right
-                            alignmentVertical = 'center', // top center bottom
-                            alignmentWrapText = false, // true false
-                            alignmentReadingOrder = 2, // for right-to-left
-                            alignmentTextRotation = 0, // Number from 0 to 180 or 255
-                          } : {
+  fontName = 'Calibri',
+  fontColorRgb = '333333',
+  fontBold = false,
+  fillFgColorRgb = 'ffffff',
+  borderStyle = 'thin',
+  borderColorRgb = 'd1d3d8',
+  alignmentHorizontal = 'center', // left center right
+  alignmentVertical = 'center', // top center bottom
+  alignmentWrapText = false, // true false
+  alignmentReadingOrder = 2, // for right-to-left
+  alignmentTextRotation = 0, // Number from 0 to 180 or 255
+} : {
   fontBold?: boolean,
   fontName?: string,
   fontColorRgb?: string,
