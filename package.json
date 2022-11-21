@@ -1,6 +1,6 @@
 {
   "name": "table-xlsx",
-  "version": "0.1.7-alpha.1",
+  "version": "0.1.7",
   "description": "Based on SheetJS encapsulation, the function of exporting files and parsing files to generate table data is realized",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

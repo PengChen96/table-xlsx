@@ -1,14 +1,17 @@
 
 export const getStyles = ({
-  fontName = 'Calibri',
-  fontColorRgb = '333333',
-  fontBold = false,
-  fillFgColorRgb = 'ffffff',
-  borderStyle = 'thin',
-  borderColorRgb = 'd1d3d8',
-  alignmentHorizontal = 'center', // left center right
-  alignmentVertical = 'center', // top center bottom
-} : {
+                            fontName = 'Calibri',
+                            fontColorRgb = '333333',
+                            fontBold = false,
+                            fillFgColorRgb = 'ffffff',
+                            borderStyle = 'thin',
+                            borderColorRgb = 'd1d3d8',
+                            alignmentHorizontal = 'center', // left center right
+                            alignmentVertical = 'center', // top center bottom
+                            alignmentWrapText = false, // true false
+                            alignmentReadingOrder = 2, // for right-to-left
+                            alignmentTextRotation = 0, // Number from 0 to 180 or 255
+                          } : {
   fontBold?: boolean,
   fontName?: string,
   fontColorRgb?: string,
@@ -17,6 +20,9 @@ export const getStyles = ({
   borderColorRgb?: string,
   alignmentHorizontal?: string,
   alignmentVertical?: string,
+  alignmentWrapText?: boolean,
+  alignmentReadingOrder?: number,
+  alignmentTextRotation?: number,
 }) => {
   return {
     fill: {
@@ -32,6 +38,9 @@ export const getStyles = ({
     alignment: {
       horizontal: alignmentHorizontal,
       vertical: alignmentVertical,
+      wrapText: alignmentWrapText,
+      readingOrder: alignmentReadingOrder,
+      textRotation: alignmentTextRotation,
     },
   };
 };

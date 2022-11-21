@@ -105,6 +105,9 @@ borderStyle | 边框风格（thin、medium、thick、dotted、hair、dashed、me
 borderColorRgb | 边框颜色（ARGB） | string | 'd1d3d8'
 alignmentHorizontal | 水平对齐（left、center、right） | string | 'center'
 alignmentVertical | 垂直对齐（top、center、bottom） | string | 'center'
+alignmentWrapText | 自动换行（true、false） | boolean | false
+alignmentReadingOrder | 阅读顺序 | number | 2
+alignmentTextRotation | 文本旋转（0 to 180 or 255） | number | 0
 
 
 ### parseFile

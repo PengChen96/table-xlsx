@@ -1,6 +1,10 @@
 
 ## CHANGELOG
 
+### 0.1.7-alpha.2
+新增：
+    - 新增样式alignmentWrapText、alignmentTextRotation
+
 ### 0.1.7-alpha.1
 修复：
     - useRender参数不生效
