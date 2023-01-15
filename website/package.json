@@ -8,7 +8,7 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "deploy1": "GIT_USER=PengChen96 docusaurus deploy",
+    "deploy1": "GIT_USER=PengChen96 USE_SSH=true docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations --locale en",
