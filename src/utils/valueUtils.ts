@@ -43,6 +43,9 @@ export const getRenderValue = (renderResult:any) => {
       if (sameType(children, 'String') || sameType(children, 'Number')) {
         values.push(children);
       }
+      if(sameType(children, 'Object')) {
+        dealChildren(children);
+      }
       if(sameType(children, 'Array')) {
         children.forEach((_child:any) => {
           dealChildren(_child);

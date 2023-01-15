@@ -1,11 +1,13 @@
 
 ## CHANGELOG
 
-### 0.1.7-alpha.2
+### 0.1.8
+修复：
+    - 导出文件使用useRender，获取`<div><span><div>{text}</div></span></div>`值为空的情况
+
+### 0.1.7
 新增：
     - 新增样式alignmentWrapText、alignmentTextRotation
-
-### 0.1.7-alpha.1
 修复：
     - useRender参数不生效
     - 导出的excel内容会显示null
