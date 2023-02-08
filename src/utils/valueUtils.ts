@@ -43,14 +43,19 @@ export const getRenderValue = (renderResult:any) => {
       if (sameType(children, 'String') || sameType(children, 'Number')) {
         values.push(children);
       }
-      if(sameType(children, 'Object')) {
+      if (sameType(children, 'Object')) {
         dealChildren(children);
       }
-      if(sameType(children, 'Array')) {
+      if (sameType(children, 'Array')) {
         children.forEach((_child:any) => {
           dealChildren(_child);
         });
       }
+    }
+    if (sameType(child, 'Array')) {
+      child.forEach((_child:any) => {
+        dealChildren(_child);
+      });
     }
   };
   if (renderResult.children) {
