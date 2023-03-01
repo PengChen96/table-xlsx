@@ -22,7 +22,7 @@ export const parseFile = ({file}: { file: File }) => new Promise((resolve, rejec
       // https://github.com/SheetJS/sheetjs#json
       const dataSource = XLSX.utils.sheet_to_json(ws, {header: 'A', blankrows: true});
       const columns = getColumns({
-        refStr: ws['!ref'] || [],
+        refStr: ws['!ref'],
         mergesArr: ws['!merges'] || [],
       });
       tables.push({
@@ -46,7 +46,7 @@ export const parseFile = ({file}: { file: File }) => new Promise((resolve, rejec
  * 生成列
  */
 export const getColumns = (
-    {refStr, mergesArr}: { refStr: string, mergesArr: MergesArrType[] }
+  {refStr, mergesArr}: { refStr: string, mergesArr: MergesArrType[] }
 ): ColumnType[] => {
   const columns: ColumnType[] = [];
   if (!refStr) {
