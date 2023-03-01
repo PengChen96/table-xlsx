@@ -22,8 +22,8 @@ export const parseFile = ({file}: { file: File }) => new Promise((resolve, rejec
       // https://github.com/SheetJS/sheetjs#json
       const dataSource = XLSX.utils.sheet_to_json(ws, {header: 'A', blankrows: true});
       const columns = getColumns({
-        refStr: ws['!ref'],
-        mergesArr: ws['!merges'],
+        refStr: ws['!ref'] || [],
+        mergesArr: ws['!merges'] || [],
       });
       tables.push({
         sheetName,
