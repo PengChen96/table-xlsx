@@ -8,10 +8,10 @@ import {
   SheetType
 } from './interface';
 
-import {sameType} from './utils/base';
-import {flattenColumns, formatToWpx, getHeader2dArray} from './utils/columnsUtils';
-import {getPathValue, getRenderValue} from './utils/valueUtils';
-import {getStyles} from './utils/cellStylesUtils';
+import { sameType } from './utils/base';
+import { flattenColumns, formatToWpx, getHeader2dArray } from './utils/columnsUtils';
+import { getPathValue, getRenderValue } from './utils/valueUtils';
+import { getStyles } from './utils/cellStylesUtils';
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -63,7 +63,7 @@ export const exportFile = (
   sheetNames.forEach((sheetName: string | number, sheetIndex: number) => {
     const _columns = sameType(columns[sheetIndex], 'Array') ? columns[sheetIndex] : columns;
     const _dataSource = sameType(dataSource[sheetIndex], 'Array') ? dataSource[sheetIndex] : dataSource;
-    const {sheet} = formatToSheet({
+    const { sheet } = formatToSheet({
       columns: _columns,
       dataSource: _dataSource,
       useRender,
@@ -97,31 +97,31 @@ const formatToSheet = (
     bodyCellStyle,
     useRender,
     onTxBodyRow,
-  } : {
-      columns: ColumnType[],
-      dataSource: DataType[],
-      showHeader: boolean,
-      raw: boolean,
-      cellStyle?: CellStyleType,
-      headerCellStyle?: CellStyleType,
-      bodyCellStyle?: CellStyleType,
-      useRender?: boolean,
-      onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
-    }
+  }: {
+    columns: ColumnType[],
+    dataSource: DataType[],
+    showHeader: boolean,
+    raw: boolean,
+    cellStyle?: CellStyleType,
+    headerCellStyle?: CellStyleType,
+    bodyCellStyle?: CellStyleType,
+    useRender?: boolean,
+    onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
+  }
 ) => {
   const sheet: SheetType = {};
   const $cols: { wpx: number }[] = [];
   const $rows: { hpx: number }[] = [];
   const $merges: MergesArrType[] = [];
   //
-  const {columns: flatColumns, level} = flattenColumns({columns});
+  const { columns: flatColumns, level } = flattenColumns({ columns });
   let headerLevel = level;
   if (showHeader) {
     for (let i = 0; i < headerLevel; i++) {
-      $rows.push({hpx: ROW_HPX});
+      $rows.push({ hpx: ROW_HPX });
     }
     // 表头信息
-    const headerData = getHeaderData({columns, headerLevel, cellStyle, headerCellStyle});
+    const headerData = getHeaderData({ columns, headerLevel, cellStyle, headerCellStyle });
     Object.assign(sheet, headerData.sheet);
     $merges.push(...headerData.merges);
   } else {
@@ -130,17 +130,17 @@ const formatToSheet = (
   //
   flatColumns.forEach((col: ColumnType, colIndex: number) => {
     const key = col.dataIndex || col.key;
-    $cols.push({wpx: formatToWpx(col.width)});
+    $cols.push({ wpx: formatToWpx(col.width) });
     const xAxis = XLSX.utils.encode_col(colIndex);
     dataSource.forEach((data: DataType, rowIndex: number) => {
       if (colIndex === 0) {
-        $rows.push({hpx: ROW_HPX});
+        $rows.push({ hpx: ROW_HPX });
       }
       let value = getPathValue(data, key);
       if (col.render) {
         const renderResult = col.render(value, data, rowIndex);
         value = useRender ? getRenderValue(renderResult) : value;
-        const merge = getMerge({renderResult, colIndex, rowIndex, headerLevel});
+        const merge = getMerge({ renderResult, colIndex, rowIndex, headerLevel });
         if (merge) {
           $merges.push(merge);
         }
@@ -157,7 +157,7 @@ const formatToSheet = (
       }
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
         t: (raw && typeof value === 'number') ? 'n' : 's',
-        v: value ? value : '',
+        v: value ?? '',
         s: getStyles({
           alignmentHorizontal: 'left',
           ...cellStyle,
@@ -187,7 +187,7 @@ const getHeaderData = ({
   headerLevel,
   cellStyle,
   headerCellStyle
-} : {
+}: {
   columns: ColumnType[],
   headerLevel: number,
   cellStyle?: CellStyleType,
@@ -196,7 +196,7 @@ const getHeaderData = ({
   const sheet: SheetType = {};
   const merges: { s: { c: number, r: number }, e: { c: number, r: number } }[] = [];
 
-  const headerArr: HeaderCellType[][] = getHeader2dArray({columns, headerLevel});
+  const headerArr: HeaderCellType[][] = getHeader2dArray({ columns, headerLevel });
   const mergesWeakMap = new WeakMap();
   headerArr.forEach((rowsArr: HeaderCellType[], rowIndex: number) => {
     rowsArr.forEach((cols: HeaderCellType, colIndex: number) => {
@@ -234,7 +234,7 @@ const getMerge = ({
   colIndex,
   rowIndex,
   headerLevel
-} : {
+}: {
   renderResult: {
     props: { colSpan: number, rowSpan: number }
   },
@@ -243,11 +243,11 @@ const getMerge = ({
   headerLevel: number
 }) => {
   if (renderResult?.props) {
-    const {colSpan, rowSpan} = renderResult.props;
+    const { colSpan, rowSpan } = renderResult.props;
     if ((colSpan && colSpan !== 1) || (rowSpan && rowSpan !== 1)) {
       const realRowIndex = rowIndex + headerLevel;
       const merge: MergesArrType = {
-        s: {c: colIndex, r: realRowIndex},
+        s: { c: colIndex, r: realRowIndex },
         e: {
           c: colIndex + (colSpan || 1) - 1,
           r: realRowIndex + (rowSpan || 1) - 1
