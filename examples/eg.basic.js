@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button, Table, Upload} from 'antd';
+import {Button, Table, Upload, Divider} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import {exportFile, parseFile} from '../dist/table-xlsx.development';
 import 'antd/dist/antd.css';
-
+import DemoFroParseExcel from './eg.parseDemo';
 
 const dataSource = [
   {key: '1', name: '胡彦斌', age: 32, address: '西湖区湖底公园1号', },
@@ -62,6 +62,8 @@ export default () => {
     }
   };
   return <div style={{padding: 20}}>
+    <DemoFroParseExcel />
+    <Divider style={{ background: 'pink' }} />
     <Dragger
       {...props}
     >
