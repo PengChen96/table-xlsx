@@ -1,31 +1,7 @@
 import React from 'react';
-import {Button, Table, Upload, Divider, Space} from 'antd';
-import {InboxOutlined} from '@ant-design/icons';
-import {exportFile, parseFile} from '../dist/table-xlsx.development';
+import {Divider, Space} from 'antd';
 import 'antd/dist/antd.css';
 import DemoFroParseExcel from './eg.parseDemo';
-
-const dataSource = [
-  {key: '1', name: '胡彦斌', age: 32, address: '西湖区湖底公园1号', },
-  {key: '2', name: '胡彦祖', age: 42, address: '西湖区湖底公园1号', },
-];
-
-const columns = [
-  {title: '姓名', dataIndex: 'name', key: 'name', },
-  {title: '年龄', dataIndex: 'age', key: 'age', },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-    render: (text) => {
-      return <div>
-        <span>
-          <div>{text}AAAAA</div>
-        </span>
-      </div>;
-    }
-  },
-];
 
 export default () => {
   const singKeyMap = {

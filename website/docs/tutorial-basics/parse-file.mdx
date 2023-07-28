@@ -5,53 +5,85 @@ sidebar_position: 3
 # 解析xlsx
 
 ```jsx live
-// import { Button, Table, Upload } from 'antd';
-// import {InboxOutlined} from '@ant-design/icons';
-// import { parseFile } from 'table-xlsx';
-function MyComponent() {
-    const { Dragger } = Upload;
-    const [data, setData] = React.useState([]);
-    const [cols, setCols] = React.useState([]);
-    const handleFile = (file) => {
-        parseFile({file}).then((result) => {
-          const columns = result.tables[0].columns.map((col) => {
-            col.ellipsis = true;
-            return col;
-          });
-          setData(result.tables[0].dataSource);
-          setCols(columns);
-        });
-    }
+// import React, {useState} from 'react';
+// import {Table, Upload} from 'antd';
+// import {parseFile} from 'table-xlsx';
+// const {Dragger} = Upload;
 
-    const props = {
-      name: 'file',
-      showUploadList: false,
-      beforeUpload: (file) => {
-        handleFile(file);
-      }
-    };
-    return <div>
-        <Dragger
-            {...props}
-        >
-            <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-              band files
-            </p>
-        </Dragger>
-        <Table
-            dataSource={data}
-            columns={cols}
-            scroll={{x: true}}
-            bordered
-            size={'small'}
-            pagination={false}
-            style={{marginTop: 20}}
-        />
-    </div>
-}
+export default () => {
+  const singKeyMap = {
+    '姓名': 'baseInfo.name',
+    '年龄': 'baseInfo.age',
+    '性别': 'baseInfo.gender',
+    '身高': 'baseInfo.height',
+    '体重': 'baseInfo.weight',
+    '手机号': 'contact.phone',
+    '邮箱': 'contact.email',
+    '所在省': 'address.province',
+    '所在市': 'address.city'
+  };
+
+  const moreKeyMap =  {
+    姓名: 'baseInfo.name',
+    '基础信息.年龄': 'baseInfo.age',
+    '基础信息.性别': 'baseInfo.gender',
+    '基础信息.身高': 'baseInfo.height',
+    '基础信息.体重': 'baseInfo.weight',
+    手机号: 'contact.phone',
+    邮箱: 'contact.email',
+    '地址信息.所在省': 'address.province',
+    '地址信息.所在市': 'address.city',
+  };
+  return <div style={{padding: 20}}>
+    <Space>
+      <a href="https://ngw.lanzout.com/is9fT13qhkve" target='_blank'>下载分组表头-多sheets-测试文件.xlsx</a>
+      <a href="https://ngw.lanzout.com/i2W1n13qhr2h" target='_blank'>下载分组表头-单sheets-测试文件.xlsx</a>
+      <a href="https://ngw.lanzout.com/ihgCA13qmr9e" target='_blank'>下载普通表头-单sheets-测试文件.xlsx</a>
+      <a href="https://ngw.lanzout.com/iONrR13qmraf" target='_blank'>下载普通表头-单sheets-测试文件.xlsx</a>
+    </Space>
+    <MyComponent keyMaps={[moreKeyMap]} title={'分组表头-单sheets'} />
+    <MyComponent keyMaps={[moreKeyMap, moreKeyMap, moreKeyMap]} title={'分组表头-多sheets'} />
+    <Divider style={{ background: '#000' }} />
+    <MyComponent keyMaps={[singKeyMap]} title={'普通表头-单sheets'} />
+    <MyComponent keyMaps={[singKeyMap, singKeyMap]} title={'普通表头-多sheets'} />
+  </div>;
+};
+
+function MyComponent({keyMaps, title}) {
+  const [tableData, setTableData] = useState([]);
+  const handleChange = (file) => {
+    parseFile({file, textKeyMaps: keyMaps}).then(({ tables, workBook }) => {
+      setTableData(tables);
+    });
+  };
+  const SheetJSFT = [
+    'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif', 'dbf', 'prn', 'qpw', '123', 'wb*', 'wq*', 'html', 'htm'
+  ].map(x => `.${x}`).join(',');
+  const props = {
+    name: 'file',
+    accept: SheetJSFT,
+    showUploadList: false,
+    beforeUpload: (file) => {
+      handleChange(file);
+    }
+  };
+  return <div style={{padding: 20}}>
+    <div style={{fontWeight: 600}}> {title}  </div>
+    <Dragger
+      {...props}
+    >
+      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      <p className="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+        band files
+      </p>
+    </Dragger>
+    <br/>
+    {
+      tableData.map((item, index) => {
+        return <div key={index}><Table columns={item.headerColumns} dataSource={item.dataSourceList} rowKey={'baseInfo.name'}/></div>;
+      })
+    }
+  </div>;
+};
 ```

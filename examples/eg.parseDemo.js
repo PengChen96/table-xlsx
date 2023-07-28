@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Table, Upload, Space} from 'antd';
+import {Table, Upload} from 'antd';
 import {parseFile} from '../dist/table-xlsx.development';
 import 'antd/dist/antd.css';
 const {Dragger} = Upload;
 
-export default ({keyMaps, title}) => {
+export default function MyComponent({keyMaps, title}) {
   const [tableData, setTableData] = useState([]);
   const handleChange = (file) => {
     parseFile({file, textKeyMaps: keyMaps}).then(({ tables, workBook }) => {
