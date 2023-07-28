@@ -81,9 +81,12 @@ function getSheetHeaderAndData(sheet: SheetType[], textKeyMap: { [x: string]: an
   // 获取菜单项在 Excel 中所占行数
   function getHeaderRowNum(textKeyMap: { [x: string]: any; }) {
     let maxLevel = 1; // 最高层级
-    Object.keys(textKeyMap).forEach(textStr => {
-      maxLevel = Math.max(maxLevel, textStr.split('.').length);
-    });
+    if (textKeyMap && Object.keys(textKeyMap).length !== 0) {
+      Object.keys(textKeyMap).forEach(textStr => {
+        maxLevel = Math.max(maxLevel, textStr.split('.').length);
+      });
+    }
+
     return maxLevel;
   }
   const headerRowNum = getHeaderRowNum(textKeyMap);
@@ -177,10 +180,12 @@ function getSheetHeaderAndData(sheet: SheetType[], textKeyMap: { [x: string]: an
   function transformTextToKey(textDataList: any[], textKeyMap: { [x: string]: any; }) {
     const textDotStrDataList = textDataList.map(obj => transformObjToDotStrObj(obj));
     let textDotStrDataListStr: any = JSON.stringify(textDotStrDataList);
-    Object.keys(textKeyMap).forEach(text => {
-      const key = textKeyMap[text];
-      textDotStrDataListStr = textDotStrDataListStr.replaceAll(`"${text}"`, `"${key}"`); // 在这里，通过字符串的替换，实现表头数据层级结构，与实际对象将数据结构的转换
-    });
+    if (textKeyMap && Object.keys(textKeyMap).length !== 0) {
+      Object.keys(textKeyMap).forEach(text => {
+        const key = textKeyMap[text];
+        textDotStrDataListStr = textDotStrDataListStr.replaceAll(`"${text}"`, `"${key}"`); // 在这里，通过字符串的替换，实现表头数据层级结构，与实际对象将数据结构的转换
+      });
+    }
     const keyDotStrDataList = JSON.parse(textDotStrDataListStr);
     const keyDataList = keyDotStrDataList.map((keyDotStrData: { [x: string]: never; }) => parseDotStrObjToObj(keyDotStrData));
     return keyDataList;
@@ -196,6 +201,53 @@ function getSheetHeaderAndData(sheet: SheetType[], textKeyMap: { [x: string]: an
     dataSourceList: dataSource,
   };
 }
+/*
+// 修改对象的key
+function transKey(data, keyMap) {
+  if (Object.keys(data).length === 0) return data;
+  return Object.keys(data).reduce((newData, key) => {
+    const newKey = keyMap[key] || key;
+    newData[newKey] = data[key];
+    return newData;
+  }, {});
+}
+/!**
+ * 解析excel
+ * @param {File} fileStream 文件对象
+ * @param {Array} keyMaps 键值对替换数组，有几个sheet数组长度就是几 [{ '名称': name1 }, { '名称': name2 }]
+ * @returns {Promise<object>} 返回Promise对象， resolve的结果为 { sheetName1: data1, sheetName2: data2 }
+ *!/
+export const parseExcelFile = (fileStream, keyMaps = []) => {
+  const reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    reader.onload = (event) => {
+      try {
+        const { result } = event.target;
+        const workbook = XLSX.read(result, { type: 'binary' }); // 读取文件
+        const configSheet = {}; // 返回对象
+        let index = 0;
+        // 循环文件中的每个表
+        for (const sheet in workbook.Sheets) {
+          if (workbook.Sheets.hasOwnProperty(sheet)) {
+            const dataSource = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+            configSheet[sheet] =
+                keyMaps.length > 0
+                    ? dataSource.map((ele) => {
+                      return transKey(ele, keyMaps[index]); // 替换key，sheet_to_json返回的是中文表头名
+                    })
+                    : dataSource;
+            index++;
+          }
+        }
+        resolve(configSheet);
+      } catch (e) {
+        reject(e);
+      }
+    };
+    reader.readAsBinaryString(fileStream);
+  });
+};*/
+
 export {
   parseDotStrObjToObj, transformObjToDotStrObj, getSheetCells, getSheetHeaderAndData
 };

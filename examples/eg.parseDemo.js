@@ -1,26 +1,14 @@
 import React, {useState} from 'react';
-import {Table, Upload, Button} from 'antd';
-import {parseExcel, exportFile} from '../dist/table-xlsx.development';
+import {Table, Upload, Space} from 'antd';
+import {parseFile} from '../dist/table-xlsx.development';
 import 'antd/dist/antd.css';
 const {Dragger} = Upload;
-const textKeyMap =  {
-  姓名: 'baseInfo.name',
-  '基础信息.年龄': 'baseInfo.age',
-  '基础信息.性别': 'baseInfo.gender',
-  '基础信息.身高': 'baseInfo.height',
-  '基础信息.体重': 'baseInfo.weight',
-  手机号: 'contact.phone',
-  邮箱: 'contact.email',
-  '地址信息.所在省': 'address.province',
-  '地址信息.所在市': 'address.city',
-};
-export default () => {
-  const [columns, setColumns] = useState([]);
-  const [dataSource, setDataSource] = useState([]);
+
+export default ({keyMaps, title}) => {
+  const [tableData, setTableData] = useState([]);
   const handleChange = (file) => {
-    parseExcel({file, textKeyMap}).then(({ headerColumns, dataSourceList, dataList }) => {
-      setColumns(headerColumns);
-      setDataSource(dataSourceList);
+    parseFile({file, textKeyMaps: keyMaps}).then(({ tables, workBook }) => {
+      setTableData(tables);
     });
   };
   const SheetJSFT = [
@@ -35,8 +23,7 @@ export default () => {
     }
   };
   return <div style={{padding: 20}}>
-    <Button ></Button>
-    <a href="https://ngw.lanzout.com/iimto13jei1c" target='_blank'>下载分组表头 测试文件</a>
+    <div style={{fontWeight: 600}}> {title}  </div>
     <Dragger
       {...props}
     >
@@ -47,6 +34,10 @@ export default () => {
       </p>
     </Dragger>
     <br/>
-    <Table columns={columns} dataSource={dataSource}/>
+    {
+      tableData.map((item, index) => {
+        return <div key={index}><Table columns={item.headerColumns} dataSource={item.dataSourceList} rowKey={'baseInfo.name'}/></div>;
+      })
+    }
   </div>;
 };
