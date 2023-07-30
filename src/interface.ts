@@ -1,6 +1,6 @@
 export type DefaultValueType = Record<string, any>
 export type DataIndex = string | number | undefined | readonly (string | number)[];
-
+export type KeyMapType = Record<string, string>;
 export interface MergesArrType {
     s: {
         c: number,
