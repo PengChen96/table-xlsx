@@ -1,5 +1,9 @@
 
 ## CHANGELOG
+### 0.1.10
+修复：
+    - 使用useRender时getRenderValue函数中的传参可能为空的情况
+    
 ### 0.1.9
 修复：
     - 导出文件使用useRender，获取['xx1', 'xx2']值为空的情况

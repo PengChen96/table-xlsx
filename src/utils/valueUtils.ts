@@ -58,7 +58,7 @@ export const getRenderValue = (renderResult:any) => {
       });
     }
   };
-  if (renderResult.children) {
+  if (renderResult?.children) {
     dealChildren(renderResult.children);
   } else {
     dealChildren(renderResult);
