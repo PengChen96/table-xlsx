@@ -1,5 +1,9 @@
 
 ## CHANGELOG
+### 0.1.11
+新增：
+    - 导出exportFile支持设置行高
+    
 ### 0.1.10
 修复：
     - 使用useRender时getRenderValue函数中的传参可能为空的情况

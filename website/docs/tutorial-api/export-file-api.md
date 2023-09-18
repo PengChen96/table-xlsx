@@ -16,6 +16,7 @@ dataSource | 表格数据 | array | []
 fileName | 文件名 | string | 'table.xlsx'
 showHeader | 显示表头 | bool | true
 raw | 是否格式化值的类型 | bool | false
+rowHpx | 行高 | number | 25
 sheetNames | sheet页 | array | ['sheet1']
 useRender | 使用render返回的值 | boolean | true
 onTxBodyRow | 设置表格主体行，@return里可设置单元格样式| function(record, index) { return { style } } | -
@@ -41,5 +42,8 @@ fillFgColorRgb | 背景填充颜色（ARGB） | string | 'ffffff'
 borderStyle | 边框风格（thin、medium、thick、dotted、hair、dashed、mediumDashed、dashDot、mediumDashDot、dashDotDot、mediumDashDotDot、slantDashDot） | string | 'thin'
 borderColorRgb | 边框颜色（ARGB） | string | 'd1d3d8'
 alignmentHorizontal | 水平对齐（left、center、right） | string | 'center'
-alignmentHorizontal | 垂直对齐（top、center、bottom） | string | 'center'
+alignmentVertical | 垂直对齐（top、center、bottom） | string | 'center'
+alignmentWrapText | 自动换行（true、false） | boolean | false
+alignmentReadingOrder | 阅读顺序 | number | 2
+alignmentTextRotation | 文本旋转（0 to 180 or 255） | number | 0
 

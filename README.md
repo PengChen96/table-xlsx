@@ -80,6 +80,7 @@ dataSource | 表格数据 | array | []
 fileName | 文件名 | string | 'table.xlsx'
 showHeader | 显示表头 | bool | true
 raw | 是否格式化值的类型 | bool | false
+rowHpx | 行高 | number | 25
 sheetNames | sheet页 | array | ['sheet1']
 useRender | 使用render返回的值 | boolean | true
 onTxBodyRow | 设置表格主体行，@return里可设置单元格样式| function(record, index) { return { style } } | -

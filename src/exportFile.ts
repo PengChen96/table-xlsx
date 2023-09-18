@@ -15,7 +15,6 @@ import {getStyles} from './utils/cellStylesUtils';
 
 const XLSX = require('@pengchen/xlsx');
 
-const ROW_HPX = 25;
 /**
  * 导出
  * @param fileName
@@ -28,6 +27,7 @@ const ROW_HPX = 25;
  * @param headerCellStyle 单元格样式
  * @param bodyCellStyle 单元格样式
  * @param useRender 是否使用render返回的值
+ * @param rowHpx
  * @param onTxBodyRow
  */
 export const exportFile = (
@@ -38,6 +38,7 @@ export const exportFile = (
     dataSource = [],
     showHeader = true,
     raw = false,
+    rowHpx = 25,
     cellStyle = {},
     headerCellStyle = {},
     bodyCellStyle = {},
@@ -50,6 +51,7 @@ export const exportFile = (
     dataSource: DataType[][],
     showHeader?: boolean,
     raw?: boolean,
+    rowHpx?: number,
     cellStyle?: CellStyleType,
     headerCellStyle?: CellStyleType,
     bodyCellStyle?: CellStyleType,
@@ -70,6 +72,7 @@ export const exportFile = (
       useRender,
       showHeader,
       raw,
+      rowHpx,
       cellStyle,
       headerCellStyle,
       bodyCellStyle,
@@ -93,6 +96,7 @@ const formatToSheet = (
     dataSource,
     showHeader,
     raw,
+    rowHpx,
     cellStyle,
     headerCellStyle,
     bodyCellStyle,
@@ -103,6 +107,7 @@ const formatToSheet = (
       dataSource: DataType[],
       showHeader: boolean,
       raw: boolean,
+      rowHpx: number,
       cellStyle?: CellStyleType,
       headerCellStyle?: CellStyleType,
       bodyCellStyle?: CellStyleType,
@@ -119,7 +124,7 @@ const formatToSheet = (
   let headerLevel = level;
   if (showHeader) {
     for (let i = 0; i < headerLevel; i++) {
-      $rows.push({hpx: ROW_HPX});
+      $rows.push({hpx: rowHpx});
     }
     // 表头信息
     const headerData = getHeaderData({columns, headerLevel, cellStyle, headerCellStyle});
@@ -135,7 +140,7 @@ const formatToSheet = (
     const xAxis = XLSX.utils.encode_col(colIndex);
     dataSource.forEach((data: DataType, rowIndex: number) => {
       if (colIndex === 0) {
-        $rows.push({hpx: ROW_HPX});
+        $rows.push({hpx: rowHpx});
       }
       let value = getPathValue(data, key);
       if (col.render) {
