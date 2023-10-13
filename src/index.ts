@@ -1,8 +1,9 @@
 
 import {parseFile} from './parseFile';
-import {exportFile} from './exportFile';
+import {exportFile, getWorkbook} from './exportFile';
 
 export {
   parseFile,
-  exportFile
+  exportFile,
+  getWorkbook,
 };
