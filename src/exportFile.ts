@@ -5,7 +5,8 @@ import {
   DefaultValueType,
   HeaderCellType,
   MergesArrType,
-  SheetType
+  SheetType,
+  ExportFilePropsType,
 } from './interface';
 
 import {sameType} from './utils/base';
@@ -44,20 +45,44 @@ export const exportFile = (
     bodyCellStyle = {},
     useRender = true,
     onTxBodyRow,
-  }: {
-    fileName?: string,
-    sheetNames?: (string | number)[],
-    columns: ColumnType[][],
-    dataSource: DataType[][],
-    showHeader?: boolean,
-    raw?: boolean,
-    rowHpx?: number,
-    cellStyle?: CellStyleType,
-    headerCellStyle?: CellStyleType,
-    bodyCellStyle?: CellStyleType,
-    useRender?: boolean,
-    onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
-  }
+  }: ExportFilePropsType
+): {
+  SheetNames: (string | number)[],
+  Sheets: { [key: string]: SheetType }
+} => {
+  const wb = getWorkbook({
+    sheetNames,
+    columns,
+    dataSource,
+    showHeader,
+    raw,
+    rowHpx,
+    cellStyle,
+    headerCellStyle,
+    bodyCellStyle,
+    useRender,
+    onTxBodyRow,
+  });
+  XLSX.writeFile(wb, fileName);
+  return wb;
+};
+/**
+ * 获取wb对象
+ */
+export const getWorkbook = (
+  {
+    sheetNames = ['sheet1'],
+    columns = [],
+    dataSource = [],
+    showHeader = true,
+    raw = false,
+    rowHpx = 25,
+    cellStyle = {},
+    headerCellStyle = {},
+    bodyCellStyle = {},
+    useRender = true,
+    onTxBodyRow,
+  }: ExportFilePropsType
 ): {
   SheetNames: (string | number)[],
   Sheets: { [key: string]: SheetType }
@@ -80,12 +105,10 @@ export const exportFile = (
     });
     Sheets[sheetName] = sheet;
   });
-  const wb = {
+  return {
     SheetNames: sheetNames,
     Sheets: Sheets,
   };
-  XLSX.writeFile(wb, fileName);
-  return wb;
 };
 /**
  * 转换成sheet对象
@@ -103,17 +126,17 @@ const formatToSheet = (
     useRender,
     onTxBodyRow,
   } : {
-      columns: ColumnType[],
-      dataSource: DataType[],
-      showHeader: boolean,
-      raw: boolean,
-      rowHpx: number,
-      cellStyle?: CellStyleType,
-      headerCellStyle?: CellStyleType,
-      bodyCellStyle?: CellStyleType,
-      useRender?: boolean,
-      onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
-    }
+    columns: ColumnType[],
+    dataSource: DataType[],
+    showHeader: boolean,
+    raw: boolean,
+    rowHpx: number,
+    cellStyle?: CellStyleType,
+    headerCellStyle?: CellStyleType,
+    bodyCellStyle?: CellStyleType,
+    useRender?: boolean,
+    onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
+  }
 ) => {
   const sheet: SheetType = {};
   const $cols: { wpx: number }[] = [];

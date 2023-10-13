@@ -1,5 +1,9 @@
 
 ## CHANGELOG
+### 0.1.12
+新增：
+    - 暴露getWorkbook函数
+    
 ### 0.1.11
 新增：
     - 导出exportFile支持设置行高

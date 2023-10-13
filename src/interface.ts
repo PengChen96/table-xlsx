@@ -74,3 +74,18 @@ export interface HeaderCellType {
     merges?: MergesArrType,
     txHeaderCellStyle?: CellStyleType,
 }
+
+export interface ExportFilePropsType {
+    fileName?: string,
+    sheetNames?: (string | number)[],
+    columns: ColumnType[][],
+    dataSource: DataType[][],
+    showHeader?: boolean,
+    raw?: boolean,
+    rowHpx?: number,
+    cellStyle?: CellStyleType,
+    headerCellStyle?: CellStyleType,
+    bodyCellStyle?: CellStyleType,
+    useRender?: boolean,
+    onTxBodyRow?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
+}
