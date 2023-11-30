@@ -185,7 +185,7 @@ const formatToSheet = (
         txBodyCellStyle = result?.style || {};
       }
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
-        t: (raw && typeof value === 'number') ? 'n' : 's',
+        t: ((raw && typeof value === 'number') || col.valueType === 'number') ? 'n' : 's',
         v: value ?? '',
         s: getStyles({
           alignmentHorizontal: 'left',

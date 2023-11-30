@@ -1,5 +1,9 @@
 
 ## CHANGELOG
+### 0.1.14
+新增：
+    - 新增column.valueType设置number类型
+    
 ### 0.1.12-0.1.13
 新增：
     - 暴露getWorkbook函数
