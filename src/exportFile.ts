@@ -174,6 +174,9 @@ const formatToSheet = (
           $merges.push(merge);
         }
       }
+      if (col.xlsxRender) {
+        value = col.xlsxRender(value, data, rowIndex);
+      }
       let txBodyRowStyle = {};
       let txBodyCellStyle = {};
       if (onTxBodyRow) {

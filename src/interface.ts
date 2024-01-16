@@ -25,6 +25,7 @@ export interface ColumnType {
     dataIndex?: string,
     mergesObj?: MergesObjType,
     render?: (value: any, row: DefaultValueType, rowIndex: number) => any,
+    xlsxRender?: (value: any, row: DefaultValueType, rowIndex: number) => any,
     onTxBodyCell?: (row: DefaultValueType, rowIndex: number) => { style: CellStyleType },
     children?: ColumnType[],
 

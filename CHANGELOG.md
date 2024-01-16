@@ -1,5 +1,9 @@
 
 ## CHANGELOG
+### 0.1.15
+新增：
+    - 新增column.xlsxRender设置列的导出值
+    
 ### 0.1.14
 新增：
     - 新增column.valueType设置number类型
