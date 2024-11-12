@@ -13,6 +13,7 @@ import {sameType} from './utils/base';
 import {flattenColumns, formatToWpx, getHeader2dArray} from './utils/columnsUtils';
 import {getPathValue, getRenderValue} from './utils/valueUtils';
 import {getStyles} from './utils/cellStylesUtils';
+import { getSheetRawTypeFn, getSheetRawValueFn, getSheetRawNumberFormattingFn } from './utils/rawUntiles.ts'
 
 const XLSX = require('@pengchen/xlsx');
 
@@ -31,7 +32,7 @@ const XLSX = require('@pengchen/xlsx');
  * @param rowHpx
  * @param onTxBodyRow
  */
-export const exportFile = (
+export const handleExport = (
   {
     fileName = 'table.xlsx',
     sheetNames = ['sheet1'],
@@ -188,8 +189,9 @@ const formatToSheet = (
         txBodyCellStyle = result?.style || {};
       }
       sheet[`${xAxis}${headerLevel + rowIndex + 1}`] = {
-        t: ((raw && typeof value === 'number') || col.valueType === 'number') ? 'n' : 's',
-        v: value ?? '',
+        t: getSheetRawTypeFn(raw, value),
+        v: getSheetRawValueFn(value) ?? '',
+        z: getSheetRawNumberFormattingFn(value),
         s: getStyles({
           alignmentHorizontal: 'left',
           ...cellStyle,
@@ -290,3 +292,71 @@ const getMerge = ({
   }
   return false;
 };
+
+const handTenderTrendFn = (columns: any) => {
+  for (const item of columns) {
+    if (item.renderTrend) {
+      Object.assign(item, {
+        onTxBodyCell: (record: any) => {
+          if (!isNaN(parseFloat(record[item.key]))) {
+            if (parseFloat(record[item.key]) > 0) {
+              return {
+                style: { fontColorRgb: '4BBD5E' }
+              }
+            }
+            if (parseFloat(record[item.key]) < 0) {
+              return {
+                style: { fontColorRgb: 'E34935' }
+              }
+            }
+          }
+        }
+      })
+    }
+    if (item.children?.length) {
+      handTenderTrendFn(item.children)
+    }
+  }
+  return columns
+}
+
+export const exportFile = ({
+  fileName = 'table.xlsx',
+  data = [],
+  showHeader = true,
+  raw = false,
+  rowHpx = 25,
+  cellStyle = {},
+  headerCellStyle = {},
+  bodyCellStyle = {},
+  useRender = true,
+  onTxBodyRow,
+  }) => {
+  if (!data.length) return console.log('暂无数据')
+  const dataSource = []
+  const columns = []
+  const sheetNames = []
+  for (const [index, item] of Object.entries(data)) {
+    dataSource.push(item.dataSource)
+    columns.push(handTenderTrendFn(item.columns))
+    if (!item.sheetNames) {
+      sheetNames.push(`sheet${index + 1}.xlsx`)
+    } else {
+      sheetNames.push(item.sheetNames)
+    }
+  }
+  handleExport({
+    fileName,
+    sheetNames,
+    columns,
+    dataSource,
+    showHeader,
+    raw,
+    rowHpx,
+    cellStyle,
+    headerCellStyle,
+    bodyCellStyle,
+    useRender,
+    onTxBodyRow,
+  })
+}
