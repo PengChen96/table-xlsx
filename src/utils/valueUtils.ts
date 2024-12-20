@@ -58,7 +58,8 @@ export const getRenderValue = (renderResult:any) => {
       });
     }
   };
-  if (renderResult?.children) {
+  // 解决数据为{ children: 0 }时会变为''的问题
+  if (renderResult?.children || renderResult?.children === 0) {
     dealChildren(renderResult.children);
   } else {
     dealChildren(renderResult);
